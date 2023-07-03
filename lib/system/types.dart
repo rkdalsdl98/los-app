@@ -1,0 +1,4 @@
+enum ValidateType {
+  id,
+  phoneNumber,
+}
