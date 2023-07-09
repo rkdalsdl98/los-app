@@ -17,7 +17,7 @@ class LongButtonWidth extends StatelessWidget {
       child: Container(
         width: double.maxFinite,
         height: 30,
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primaryContainer,
           borderRadius: const BorderRadius.all(Radius.circular(5)),
