@@ -69,6 +69,15 @@ class _LoginState extends State<Login> {
             color: Colors.red,
           ),
         );
+      } else if (e.toString().contains('wrong-password')) {
+        snackBarMessage(
+          context,
+          "비밀번호가 일치하지 않습니다",
+          const Icon(
+            Icons.warning_rounded,
+            color: Colors.red,
+          ),
+        );
       } else {
         snackBarErrorMessage(context, "예기치 못한 오류가 발생했습니다.", e.toString());
       }

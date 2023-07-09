@@ -85,7 +85,7 @@ class _SignState extends State<Sign> {
       if (e.toString() == 'AcceptException') {
         snackBarMessage(
           context,
-          "약관의 동의 하지 않을 경우 회원가입 진행이 불가합니다",
+          "약관에 동의 하지 않을 경우 회원가입 진행이 불가합니다",
           const Icon(
             Icons.warning_rounded,
             color: Colors.red,
