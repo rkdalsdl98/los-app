@@ -115,7 +115,7 @@ class _LatelyGameDetailsState extends State<LatelyGameDetails> {
                     ),
                   ),
                   child: Text(
-                    '최근 한달동안 있었던 경기 중,\n최대 5개의 기록을 불러옵니다.\n모든 내역을 보시려면 "내 기록 보기" 탭에서 확인 하실 수 있습니다.',
+                    '최근 한달동안 있었던 경기 중,\n최대 5개의 기록을 불러옵니다.\n모든 내역을 보시려면 "경기기록보기" 탭에서 확인 하실 수 있습니다.',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 8,

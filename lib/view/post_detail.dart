@@ -94,12 +94,18 @@ class PostDetail extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CircleTextButton(
-                    text: '경기신청',
-                    onPressEvent: () {},
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CircleTextButton(
+                      text: '수정하기',
+                      onPressEvent: () {},
+                    ),
+                    CircleTextButton(
+                      text: '경기신청',
+                      onPressEvent: () {},
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 5),
                 const TeamDetailBox(),

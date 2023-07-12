@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class LongButtonWidth extends StatelessWidget {
+class LongHorizontalButton extends StatelessWidget {
   final String text;
   final Function() onPressEvent;
 
-  const LongButtonWidth({
+  const LongHorizontalButton({
     super.key,
     required this.text,
     required this.onPressEvent,

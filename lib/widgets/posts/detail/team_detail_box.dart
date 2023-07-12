@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../global/circle_text.dart';
+import '../../global/circle_text_small.dart';
 
 class TeamDetailBox extends StatelessWidget {
   const TeamDetailBox({

@@ -3,7 +3,6 @@ import 'package:los_app/view/home.dart';
 import 'package:los_app/view/main_login_view.dart';
 import 'package:los_app/view/post_detail.dart';
 import 'package:los_app/view/posts.dart';
-import 'package:los_app/widgets/posts/post_detail.dart';
 
 Route<dynamic>? initGeneratedRoutes(RouteSettings settings) {
   final args =

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 void snackBarErrorMessage(BuildContext context, String message, String error) {
@@ -65,6 +67,30 @@ void snackBarMessage(BuildContext context, String message, Icon? icon) {
           if (icon != null) icon,
         ],
       ),
+    ),
+  );
+}
+
+Future<void> onWillPopScopeMessage(BuildContext context) async {
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text(
+        '앱을 완전히 종료하시겠습니까?',
+        style: TextStyle(
+          fontSize: 14,
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text('예'),
+          onPressed: () => exit(0),
+        ),
+        TextButton(
+          child: const Text('아니오'),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
     ),
   );
 }

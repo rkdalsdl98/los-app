@@ -15,6 +15,7 @@ class CircleTextButton extends StatelessWidget {
     return InkWell(
       onTap: onPressEvent,
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,

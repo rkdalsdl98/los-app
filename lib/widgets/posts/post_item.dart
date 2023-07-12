@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:los_app/widgets/posts/post_detail.dart';
+import 'package:los_app/widgets/posts/post_info.dart';
 
 class PostItem extends StatelessWidget {
   const PostItem({
