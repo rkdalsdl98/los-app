@@ -15,7 +15,7 @@ LOS를 통해 상대를 찾고 자신의 실력을 입증하자!
 
 **DataFlow**  
 
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/6fa48cb5-abf1-45b9-a118-1e8d97768d90' >  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/82c9881f-51d3-4a68-aca8-f5118863181c' >  
 
 # Figma  
 
