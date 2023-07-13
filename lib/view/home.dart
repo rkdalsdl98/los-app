@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:los_app/provider/page_provider.dart';
 import 'package:los_app/provider/user_provider.dart';
-import 'package:los_app/widgets/pages/home_setting_page.dart';
+import 'package:los_app/widgets/pages/home_my_page.dart';
 import 'package:los_app/widgets/pages/home_team_page.dart';
 import 'package:provider/provider.dart';
 
@@ -63,8 +65,8 @@ class _HomeState extends State<Home> {
                   label: 'Team',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.settings),
-                  label: 'Settings',
+                  icon: Icon(Icons.person),
+                  label: 'My',
                 ),
               ],
               animationDuration: const Duration(milliseconds: 800),
@@ -72,7 +74,20 @@ class _HomeState extends State<Home> {
             backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             body: WillPopScope(
               onWillPop: () async {
-                await onWillPopScopeMessage(context);
+                await showDialogMessage(
+                  context,
+                  '앱을 완전히 종료 하시겠습니까?',
+                  [
+                    TextButton(
+                      child: const Text('예'),
+                      onPressed: () => exit(0),
+                    ),
+                    TextButton(
+                      child: const Text('아니오'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                );
                 return false;
               },
               child: Center(
@@ -80,10 +95,13 @@ class _HomeState extends State<Home> {
                   constraints: BoxConstraints.tight(const Size.fromWidth(500)),
                   child: IndexedStack(
                     index: provider.selectedPage,
-                    children: const [
-                      HomeMainPage(),
-                      HomeTeamPage(),
-                      HomeSettingPage(),
+                    children: [
+                      const HomeMainPage(),
+                      const HomeTeamPage(),
+                      if (MediaQuery.of(context).size.height < 530)
+                        const SingleChildScrollView(child: HomeMyPage()),
+                      if (MediaQuery.of(context).size.height > 530)
+                        const HomeMyPage(),
                     ],
                   ),
                 ),

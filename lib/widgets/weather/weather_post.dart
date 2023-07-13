@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/design/dimensions.dart';
 import 'package:los_app/widgets/weather/weather_item.dart';
 
 class WeatherPost extends StatelessWidget {
@@ -10,7 +11,7 @@ class WeatherPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 190,
+      width: 160 * getScaleFactorFromWidth(context),
       height: 110,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -35,27 +36,27 @@ class WeatherPost extends StatelessWidget {
               Icon(
                 Icons.push_pin_rounded,
                 color: Theme.of(context).colorScheme.background,
-                size: 10,
+                size: 10 * getScaleFactorFromWidth(context),
               ),
               const SizedBox(
-                width: 50,
+                width: 30,
               ),
               Text(
                 '날씨 게시판',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.background,
-                  fontSize: 10,
+                  fontSize: 10 * getScaleFactorFromWidth(context),
                   fontFamily: 'SpoqaHanSans',
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(
-                width: 50,
+                width: 30,
               ),
               Icon(
                 Icons.push_pin_rounded,
                 color: Theme.of(context).colorScheme.background,
-                size: 10,
+                size: 10 * getScaleFactorFromWidth(context),
               ),
             ],
           ),

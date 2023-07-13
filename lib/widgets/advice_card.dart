@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../design/dimensions.dart';
+
 class AdviceCard extends StatelessWidget {
   const AdviceCard({super.key});
 
@@ -7,7 +9,7 @@ class AdviceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 190,
+      width: 160 * getScaleFactorFromWidth(context),
       height: 110,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onTertiaryContainer,
@@ -35,7 +37,7 @@ class AdviceCard extends StatelessWidget {
               'LOS',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.tertiaryContainer,
-                fontSize: 12,
+                fontSize: 10 * getScaleFactorFromWidth(context),
                 fontFamily: 'SpoqaHanSans',
                 fontWeight: FontWeight.w600,
               ),
@@ -50,7 +52,7 @@ class AdviceCard extends StatelessWidget {
                     '오늘의 띵언 카드',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.tertiaryContainer,
-                      fontSize: 13,
+                      fontSize: 11 * getScaleFactorFromWidth(context),
                       fontFamily: 'SpoqaHanSans',
                       fontWeight: FontWeight.w600,
                     ),
@@ -59,7 +61,7 @@ class AdviceCard extends StatelessWidget {
                     '" 몸을 잘 돌보고 조심해서 다뤄라 "',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.tertiaryContainer,
-                      fontSize: 11,
+                      fontSize: 9 * getScaleFactorFromWidth(context),
                       fontFamily: 'SpoqaHanSans',
                       fontWeight: FontWeight.w600,
                     ),
@@ -71,12 +73,12 @@ class AdviceCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15, right: 5),
+              padding: const EdgeInsets.only(top: 20, right: 5),
               child: Text(
                 'Advice By - 핑크덤벨요정',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiaryContainer,
-                  fontSize: 6,
+                  fontSize: 5 * getScaleFactorFromWidth(context),
                   fontFamily: 'SpoqaHanSans',
                   fontWeight: FontWeight.w600,
                 ),

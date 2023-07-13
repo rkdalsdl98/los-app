@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/design/dimensions.dart';
 
 class RankItem extends StatelessWidget {
   const RankItem({
@@ -14,11 +15,11 @@ class RankItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            constraints: const BoxConstraints(
+            constraints: BoxConstraints(
               minHeight: 22,
               maxHeight: 27,
-              minWidth: 150,
-              maxWidth: 181,
+              minWidth: 150 * getScaleFactorFromWidth(context),
+              maxWidth: 160 * getScaleFactorFromWidth(context),
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.background,
@@ -29,22 +30,24 @@ class RankItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(2),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  margin: const EdgeInsets.only(right: 5),
                   child: Image.asset(
                     'assets/img/basketball_mark.png',
                     fit: BoxFit.contain,
-                    width: 40,
-                    height: 40,
+                    width: 20 * getScaleFactorFromWidth(context),
+                    height: 30 * getScaleFactorFromWidth(context),
                   ),
                 ),
                 Text(
                   '움직이면던짐',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontSize: 10,
+                    fontSize: 8 * getScaleFactorFromWidth(context),
                     fontFamily: 'SpoqaHanSans',
                     fontWeight: FontWeight.w400,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const Spacer(
@@ -54,17 +57,17 @@ class RankItem extends StatelessWidget {
                   'Bronze',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontSize: 10,
+                    fontSize: 8 * getScaleFactorFromWidth(context),
                     fontFamily: 'SpoqaHanSans',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-                const RotatedBox(
+                RotatedBox(
                   quarterTurns: 3,
                   child: Icon(
                     Icons.play_arrow_rounded,
-                    size: 18,
-                    color: Color(0xFF1CBA3E),
+                    size: 16 * getScaleFactorFromWidth(context),
+                    color: const Color(0xFF1CBA3E),
                   ),
                 ),
               ],

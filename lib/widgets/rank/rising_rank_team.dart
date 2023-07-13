@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:los_app/widgets/rank/rising_rank_team_box.dart';
 
+import '../../design/dimensions.dart';
 import '../global/category_text.dart';
 
 class RisingRankTeam extends StatelessWidget {
@@ -11,12 +12,13 @@ class RisingRankTeam extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(
+      constraints: BoxConstraints(
         minHeight: 145,
         maxHeight: 155,
-        minWidth: 171,
-        maxWidth: 181,
+        minWidth: 150 * getScaleFactorFromWidth(context),
+        maxWidth: 160 * getScaleFactorFromWidth(context),
       ),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,

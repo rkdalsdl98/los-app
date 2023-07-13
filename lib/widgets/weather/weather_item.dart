@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../design/dimensions.dart';
+
 class WeatherInfoItem extends StatelessWidget {
   const WeatherInfoItem({
     super.key,
@@ -8,8 +10,8 @@ class WeatherInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
+      padding: EdgeInsets.symmetric(
+        horizontal: 5 * getScaleFactorFromWidth(context),
         vertical: 2,
       ),
       decoration: BoxDecoration(
@@ -25,7 +27,7 @@ class WeatherInfoItem extends StatelessWidget {
             '온도:',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 8,
+              fontSize: 6 * getScaleFactorFromWidth(context),
               fontFamily: 'SpoqaHanSans',
               fontWeight: FontWeight.w400,
             ),
@@ -38,7 +40,7 @@ class WeatherInfoItem extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 6,
+              fontSize: 4 * getScaleFactorFromWidth(context),
               fontFamily: 'SpoqaHanSans',
               fontWeight: FontWeight.w400,
             ),

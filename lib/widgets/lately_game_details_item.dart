@@ -86,7 +86,7 @@ class _LatelyGameDetailsState extends State<LatelyGameDetails> {
         Stack(
           children: [
             SizedBox(
-              width: 220,
+              width: 180 * (MediaQuery.of(context).size.width / 360),
               height: 150,
               child: PageView.builder(
                 controller: pageController,

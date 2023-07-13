@@ -71,26 +71,21 @@ void snackBarMessage(BuildContext context, String message, Icon? icon) {
   );
 }
 
-Future<void> onWillPopScopeMessage(BuildContext context) async {
+Future<void> showDialogMessage(
+  BuildContext context,
+  String text,
+  List<Widget> actions,
+) async {
   await showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text(
-        '앱을 완전히 종료하시겠습니까?',
-        style: TextStyle(
+      title: Text(
+        text,
+        style: const TextStyle(
           fontSize: 14,
         ),
       ),
-      actions: [
-        TextButton(
-          child: const Text('예'),
-          onPressed: () => exit(0),
-        ),
-        TextButton(
-          child: const Text('아니오'),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
+      actions: actions,
     ),
   );
 }
