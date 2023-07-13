@@ -9,7 +9,11 @@
 
 # 기술스택  
 
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/f79df89a-abf6-44ea-9d11-43c770f70d16' width="100" height="50"> <img src='https://cdn.jumpit.co.kr/images/stacks/flutter.png' width="50" height="50">  
+**Frontend**  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/f79df89a-abf6-44ea-9d11-43c770f70d16' width="50" height="50"> <img src='https://cdn.jumpit.co.kr/images/stacks/flutter.png' width="50" height="50">  
+
+**Backend**  
+
 
 # Diagram  
 
