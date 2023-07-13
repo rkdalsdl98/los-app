@@ -21,7 +21,7 @@
 **DataFlow**  
 
 > Updated At 2023-07-13  
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/97bf2ef6-8834-4274-a719-62e8e31bbc3e' >  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/75788367-1526-4f7c-a27d-72adebc9da4b' >  
 
 # Figma  
 
