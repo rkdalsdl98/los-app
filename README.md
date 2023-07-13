@@ -11,7 +11,7 @@ LOS를 통해 상대를 찾고 자신의 실력을 입증하자!
 
 **ERD**  
 
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/3ae4dffc-950e-4422-b272-162ee42e01d8'>  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/c43b5c7c-4b6b-4a06-a5d7-973979f62b64'>  
 
 **DataFlow**  
 
