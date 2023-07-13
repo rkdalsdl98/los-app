@@ -9,19 +9,19 @@
 
 # 기술스택  
 
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/f79df89a-abf6-44ea-9d11-43c770f70d16' width="100" height="50"> <img src='https://cdn.jumpit.co.kr/images/stacks/flutter.png' width="50" height="50">  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/0e30b99c-5521-45dd-8d78-c69b05521836' width="100" height="50"> <img src='https://cdn.jumpit.co.kr/images/stacks/flutter.png' width="50" height="50"> <img src='https://cdn.jumpit.co.kr/images/stacks/dart.png' width="50" height="50">  
 
 # Diagram  
 
 **ERD**  
 
 > Updated At 2023-07-13  
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/c43b5c7c-4b6b-4a06-a5d7-973979f62b64'>  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/6de1649e-3354-4ccb-bade-8ef1aeace370'>  
 
 **DataFlow**  
 
 > Updated At 2023-07-13  
-<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/82c9881f-51d3-4a68-aca8-f5118863181c' >  
+<img src='https://github.com/rkdalsdl98/los-app/assets/77562358/97bf2ef6-8834-4274-a719-62e8e31bbc3e' >  
 
 # Figma  
 
