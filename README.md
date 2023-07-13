@@ -9,17 +9,15 @@ LOS를 통해 상대를 찾고 자신의 실력을 입증하자!
 
 # Diagram  
 
+> Updated At 2023-07-13  
 **ERD**  
 
 <img src='https://github.com/rkdalsdl98/los-app/assets/77562358/c43b5c7c-4b6b-4a06-a5d7-973979f62b64'>  
 
-***Update At 2023-07-13***
-
 **DataFlow**  
 
+> Updated At 2023-07-13  
 <img src='https://github.com/rkdalsdl98/los-app/assets/77562358/82c9881f-51d3-4a68-aca8-f5118863181c' >  
-
-***Update At 2023-07-13***
 
 # Figma  
 
