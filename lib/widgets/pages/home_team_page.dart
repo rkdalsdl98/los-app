@@ -1,10 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:los_app/design/dimensions.dart';
+import 'package:los_app/provider/user_provider.dart';
 import 'package:los_app/widgets/global/circle_text_large.dart';
 import 'package:los_app/widgets/global/custom_text_wraper.dart';
+import 'package:provider/provider.dart';
 
 class HomeTeamPage extends StatelessWidget {
   const HomeTeamPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserProvider>(
+      builder: (_, provider, __) {
+        final bool hasTeam = provider.userData?.teamCode == null;
+        return hasTeam
+            ? const Team()
+            : Center(
+                child: Container(
+                  width: 350,
+                  height: 350,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/img/los_background_translate.png',
+                      ),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '소속된 팀이 없습니다.',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        fontSize: 14,
+                        fontFamily: 'SpoqaHanSans',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+      },
+    );
+  }
+}
+
+class Team extends StatelessWidget {
+  const Team({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

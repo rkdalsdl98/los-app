@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserDataModel {
-  String? address, email, phoneNumber, profileImage, teamCode;
+  String? address, email, phoneNumber, profileImage, teamCode, nickName;
   Timestamp? createdAt;
 
   UserDataModel.fromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
@@ -12,6 +12,7 @@ class UserDataModel {
       phoneNumber = snapshot['phone-number'];
       profileImage = snapshot['profile-image'];
       teamCode = snapshot['team-code'];
+      nickName = snapshot['nickname'];
     }
   }
 
@@ -21,5 +22,6 @@ class UserDataModel {
         email = json['email'],
         phoneNumber = json['phone-number'],
         profileImage = json['profile-image'],
-        teamCode = json['team-code'];
+        teamCode = json['team-code'],
+        nickName = json['nickname'];
 }

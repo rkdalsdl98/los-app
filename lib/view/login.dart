@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:los_app/provider/user_provider.dart';
+import 'package:los_app/system/auth.dart';
 import 'package:los_app/system/types.dart';
-import 'package:provider/provider.dart';
 
 import '../system/func.dart';
-import '../system/loading.dart';
 import '../system/message.dart';
 import '../widgets/helper_text.dart';
 import '../widgets/input_field.dart';
@@ -50,15 +48,7 @@ class _LoginState extends State<Login> {
     form.save();
 
     try {
-      showLoadingIndicator(context);
-
-      final userProvider = context.read<UserProvider>();
-      await userProvider.authentication
-          .signInWithEmailAndPassword(
-            email: result['userId'],
-            password: result['userPass'],
-          )
-          .then((_) => Navigator.pop(context));
+      await losSignIn(context, result);
     } catch (e) {
       if (e.toString().contains('not-found')) {
         snackBarMessage(

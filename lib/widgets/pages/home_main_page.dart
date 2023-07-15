@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:los_app/provider/user_provider.dart';
+import 'package:los_app/widgets/global/user_profile_icon.dart';
 import 'package:los_app/widgets/rank/ranking.dart';
+import 'package:provider/provider.dart';
 
 import '../global/long_horizontal_button.dart';
 import '../lately_game_details_item.dart';
@@ -52,34 +56,48 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<UserProvider>();
     return SliverAppBar(
       actions: [
         Stack(
           children: [
-            Positioned(
-              left: 25,
-              top: 5,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 6,
-                  vertical: 2,
-                ),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.error,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(45),
-                  ),
-                ),
-                child: const Text(
-                  '3',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontFamily: 'SpoqaHanSans',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance
+                  .collection('user')
+                  .doc(provider.user!.uid)
+                  .collection('alert')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final alerts = snapshot.data;
+                  return Positioned(
+                    left: 25,
+                    top: 5,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.error,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(45),
+                        ),
+                      ),
+                      child: Text(
+                        '${alerts!.docs.length}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontFamily: 'SpoqaHanSans',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
             ),
             Row(
               children: [
@@ -113,83 +131,12 @@ class HomeAppBar extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.all(30),
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.background,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(100),
-                        ),
-                      ),
-                      child: Image.asset(
-                        'assets/img/basketball_mark.png',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'UserName 님 환영합니다!',
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontSize: 14,
-                            fontFamily: 'SpoqaHanSans',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Text(
-                          '팀의 남은 경기 횟수는 1 회 입니다.',
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontSize: 14,
-                            fontFamily: 'SpoqaHanSans',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    TeamInformationBox(),
-                    Spacer(),
-                    LatelyGameDetails(
-                      detailCount: 5,
-                    ),
-                    Spacer(),
-                  ],
-                ),
-                if (MediaQuery.of(context).size.width > 500)
-                  const SizedBox(
-                    height: 60,
-                  ),
-              ],
-            ),
+            child: Consumer<UserProvider>(builder: (_, provider, __) {
+              return provider.userData?.teamCode == null ||
+                      provider.userData!.teamCode!.isEmpty
+                  ? userInfoHelper(context)
+                  : userInfoWithTeamHelper(context);
+            }),
           ),
         ),
       ),
@@ -224,4 +171,106 @@ class HomeAppBar extends StatelessWidget {
       pinned: false,
     );
   }
+
+  Widget userInfoHelper(BuildContext context) {
+    return Consumer<UserProvider>(
+      builder: (_, provider, __) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            UserProfileIcon(profileImage: provider.userData?.profileImage),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              '${provider.userData?.nickName} 님 환영합니다!\n팀을 꾸리거나 합류해 보세요!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                fontSize: 16,
+                fontFamily: 'SpoqaHanSans',
+                fontWeight: FontWeight.w500,
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+}
+
+Column userInfoWithTeamHelper(BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Spacer(),
+          Container(
+            padding: const EdgeInsets.all(30),
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(100),
+              ),
+            ),
+            child: Image.asset(
+              'assets/img/basketball_mark.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${context.read<UserProvider>().userData!.nickName} 님 환영합니다!',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontSize: 14,
+                  fontFamily: 'SpoqaHanSans',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                '팀의 남은 경기 횟수는 1 회 입니다.',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  fontSize: 14,
+                  fontFamily: 'SpoqaHanSans',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+        ],
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(),
+          TeamInformationBox(),
+          Spacer(),
+          LatelyGameDetails(
+            detailCount: 5,
+          ),
+          Spacer(),
+        ],
+      ),
+      if (MediaQuery.of(context).size.width > 500)
+        const SizedBox(
+          height: 60,
+        ),
+    ],
+  );
 }

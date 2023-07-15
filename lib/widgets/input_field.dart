@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 class InputField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final String? suffixText;
   final String type;
   final Function(String, dynamic)? addData;
-  final String? Function(String?) validator;
+  final String? Function(String?)? validator;
   final bool obscureText;
+  final EdgeInsetsGeometry padding;
+  final TextAlign align;
+  final TextAlignVertical? alignVertical;
+  final Widget? suffixIcon;
 
   const InputField({
     super.key,
@@ -20,22 +24,26 @@ class InputField extends StatelessWidget {
     this.addData,
     required this.validator,
     this.obscureText = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 20),
+    this.align = TextAlign.start,
+    this.alignVertical,
+    this.suffixIcon,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
+      padding: padding,
       child: TextFormField(
+        textAlign: align,
+        textAlignVertical: alignVertical,
         obscureText: obscureText,
         onSaved: (value) {
           if (addData != null) {
             addData!(type, value);
           }
         },
-        validator: (value) => validator(value),
+        validator: (value) => validator != null ? validator!(value) : null,
         controller: controller,
         style: TextStyle(
           color: Theme.of(context).colorScheme.onBackground,
@@ -93,10 +101,16 @@ class InputField extends StatelessWidget {
             fontFamily: 'SpoqaHanSans',
             fontWeight: FontWeight.w600,
           ),
-          prefixIcon: Icon(
-            prefixIcon,
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.5),
-          ),
+          prefixIcon: prefixIcon != null
+              ? Icon(
+                  prefixIcon,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(.5),
+                )
+              : null,
+          suffixIcon: suffixIcon,
         ),
       ),
     );

@@ -13,11 +13,31 @@ class UserProvider with ChangeNotifier {
 
   FirebaseAuth get authentication => _userRepo.authentication;
 
-  void linkUserData(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
-    _userRepo.linkUserData(snapshot);
+  UserProvider() {
+    if (_userRepo.user != null) {
+      _getUserDoc().then((value) => linkUserFromDoc(value));
+    }
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> _getUserDoc() async {
+    return await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .get();
+  }
+
+  void linkUserFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+    _userRepo.linkUserDataFromDoc(snapshot);
+    notifyListeners();
+  }
+
+  void linkUserFromJson(Map<String, dynamic> json) {
+    _userRepo.linkUserDataFromJson(json);
+    notifyListeners();
   }
 
   void unLinkUserData() {
     _userRepo.unLinkUserData();
+    notifyListeners();
   }
 }

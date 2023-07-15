@@ -15,8 +15,12 @@ class UserRepo {
     user = _authentication.currentUser;
   }
 
-  void linkUserData(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+  void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
     _userData = UserDataModel.fromDoc(snapshot);
+  }
+
+  void linkUserDataFromJson(Map<String, dynamic> json) {
+    _userData = UserDataModel.fromJson(json);
   }
 
   void unLinkUserData() {

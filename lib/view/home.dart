@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:los_app/provider/page_provider.dart';
-import 'package:los_app/provider/user_provider.dart';
 import 'package:los_app/widgets/pages/home_my_page.dart';
 import 'package:los_app/widgets/pages/home_team_page.dart';
 import 'package:provider/provider.dart';
@@ -19,28 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Future<void> initialize(UserProvider userProvider) async {
-    await FirebaseFirestore.instance
-        .collection('user')
-        .doc(userProvider.user!.uid)
-        .get()
-        .then((value) => userProvider.linkUserData(value));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    final userProvider = context.read<UserProvider>();
-
-    if (userProvider.user != null) {
-      try {
-        initialize(userProvider);
-      } catch (e) {
-        snackBarErrorMessage(context, "유저 정보를 불러오는데 실패했습니다", e.toString());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PageProvider>(
