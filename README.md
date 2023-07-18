@@ -13,7 +13,7 @@
 
 # Diagram  
 
-**ERD**  
+**FireStore Doc**  
 
 > Updated At 2023-07-13  
 <img src='https://github.com/rkdalsdl98/los-app/assets/77562358/6de1649e-3354-4ccb-bade-8ef1aeace370'>  
