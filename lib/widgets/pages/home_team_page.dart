@@ -215,7 +215,9 @@ class HomeTeamPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       width: 145,
                       height: 55,
-                      onPressEvent: () => Navigator.pushNamed(context, '/chat'),
+                      onPressEvent: () {
+                        Navigator.pushNamed(context, '/chat');
+                      },
                     ),
                   ],
                 ),
