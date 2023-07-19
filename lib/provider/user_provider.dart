@@ -15,24 +15,24 @@ class UserProvider with ChangeNotifier {
 
   UserProvider() {
     if (_userRepo.user != null) {
-      _getUserDoc().then((value) => linkUserFromDoc(value));
+      _getUserDoc().then((value) => linkUserFromDoc(value, _userRepo.user));
     }
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> _getUserDoc() async {
-    return await FirebaseFirestore.instance
-        .collection('user')
-        .doc(user!.uid)
-        .get();
+    return await _userRepo.getUserDoc();
   }
 
-  void linkUserFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+  void linkUserFromDoc(
+      DocumentSnapshot<Map<String, dynamic>>? snapshot, User? newUser) {
     _userRepo.linkUserDataFromDoc(snapshot);
+    _userRepo.linkUser(newUser);
     notifyListeners();
   }
 
-  void linkUserFromJson(Map<String, dynamic> json) {
+  void linkUserFromJson(Map<String, dynamic> json, User? newUser) {
     _userRepo.linkUserDataFromJson(json);
+    _userRepo.linkUser(newUser);
     notifyListeners();
   }
 

@@ -27,6 +27,12 @@ class _SignState extends State<Sign> {
   final TextEditingController inputPass2Controller = TextEditingController();
   final TextEditingController inputPhoneNumController = TextEditingController();
   final TextEditingController inputAddressController = TextEditingController();
+  final TextEditingController inputAgeController = TextEditingController();
+  final TextEditingController inputHeightController = TextEditingController();
+  final TextEditingController inputWeightController = TextEditingController();
+  final TextEditingController inputFavoriteSportsController =
+      TextEditingController();
+  final TextEditingController inputNameController = TextEditingController();
   final TextEditingController inputNickNameController = TextEditingController();
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -185,6 +191,100 @@ class _SignState extends State<Sign> {
                             hintText: '도로명 주소를 입력해주세요.',
                             prefixIcon: Icons.location_on_sharp,
                             suffixText: '(ex: 서울특별시 마포구 월드컵로5길 11)',
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '나이를 입력해주세요';
+                              } else if (value.trim().length > 2 ||
+                                  int.parse(value) < 1) {
+                                return '나이는 1세 부터 99세까지 입력 할 수 있습니다.';
+                              }
+                              return null;
+                            },
+                            type: 'age',
+                            controller: inputAgeController,
+                            hintText: '나이를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '키를 입력해주세요';
+                              } else if (value.trim().length > 3 ||
+                                  int.parse(value) > 300) {
+                                return '정확한 키를 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'height',
+                            controller: inputHeightController,
+                            hintText: '키를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '몸무게를 입력해주세요';
+                              } else if (value.trim().length > 3 ||
+                                  int.parse(value) > 300) {
+                                return '정확한 몸무게를 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'weight',
+                            controller: inputWeightController,
+                            hintText: '몸무게를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '자신이 가장 좋아하는 운동종목을 입력해주세요';
+                              } else if (value.trim().length > 10) {
+                                return '운동종목은 10자 이내로 작성해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'favorite-sports',
+                            controller: inputFavoriteSportsController,
+                            hintText: '자신이 가장좋아하는 운동종목을 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '이름을 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'name',
+                            controller: inputNameController,
+                            hintText: '이름을 입력해주세요.',
+                            prefixIcon: null,
                           ),
                           const SizedBox(
                             height: 7,

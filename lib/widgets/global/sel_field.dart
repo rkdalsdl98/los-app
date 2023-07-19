@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InputField extends StatelessWidget {
+class SelField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData? prefixIcon;
@@ -13,9 +13,8 @@ class InputField extends StatelessWidget {
   final TextAlign align;
   final TextAlignVertical? alignVertical;
   final Widget? suffixIcon;
-  final TextInputType? textInputType;
 
-  const InputField({
+  const SelField({
     super.key,
     required this.controller,
     required this.hintText,
@@ -29,7 +28,6 @@ class InputField extends StatelessWidget {
     this.align = TextAlign.start,
     this.alignVertical,
     this.suffixIcon,
-    this.textInputType,
   });
 
   @override
@@ -37,7 +35,6 @@ class InputField extends StatelessWidget {
     return Container(
       padding: padding,
       child: TextFormField(
-        keyboardType: textInputType,
         textAlign: align,
         textAlignVertical: alignVertical,
         obscureText: obscureText,

@@ -44,20 +44,6 @@ class _PostsState extends State<Posts> {
                     ),
                     CircleIconButton(
                       icon: Icon(
-                        Icons.message,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onBackground
-                            .withOpacity(.5),
-                        size: 20,
-                      ),
-                      onPressEvent: () {},
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    CircleIconButton(
-                      icon: Icon(
                         Icons.filter_list_rounded,
                         color: Theme.of(context)
                             .colorScheme

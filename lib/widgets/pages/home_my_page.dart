@@ -94,6 +94,17 @@ class _HomeMyPageState extends State<HomeMyPage> {
                   children: [
                     roundedEditBoxHelper(
                       context,
+                      title: '이름',
+                      true,
+                      content: '${provider.userData?.name}',
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 25,
+                      ),
+                      height: 50,
+                    ),
+                    roundedEditBoxHelper(
+                      context,
                       true,
                       title: '주소',
                       content: '${provider.userData?.address}',
@@ -108,6 +119,54 @@ class _HomeMyPageState extends State<HomeMyPage> {
                       title: '전화번호',
                       true,
                       content: '${provider.userData?.phoneNumber}',
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 20),
+                      width: 160 * getScaleFactorFromWidth(context),
+                      height: 50,
+                    ),
+                    Row(
+                      children: [
+                        roundedEditBoxHelper(
+                          context,
+                          title: '이름',
+                          true,
+                          content: '${provider.userData?.nickName}',
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 20),
+                          width: 140 * getScaleFactorFromWidth(context),
+                          height: 50,
+                        ),
+                        const SizedBox(width: 5),
+                        roundedEditBoxHelper(
+                          context,
+                          title: '키',
+                          true,
+                          content: '${provider.userData?.height}cm',
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 25,
+                          ),
+                          height: 50,
+                        ),
+                        const SizedBox(width: 5),
+                        roundedEditBoxHelper(
+                          context,
+                          title: '몸무게',
+                          true,
+                          content: '${provider.userData?.weight}kg',
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 25,
+                          ),
+                          height: 50,
+                        ),
+                      ],
+                    ),
+                    roundedEditBoxHelper(
+                      context,
+                      title: '좋아하는 운동',
+                      true,
+                      content: '${provider.userData?.favoriteSports}',
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 20),
                       width: 160 * getScaleFactorFromWidth(context),

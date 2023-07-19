@@ -31,7 +31,7 @@ Future<void> losSignIn(BuildContext context, Map<String, dynamic> data) async {
           .doc(user!.uid)
           .get()
           .then((value) {
-        userProvider.linkUserFromDoc(value);
+        userProvider.linkUserFromDoc(value, user);
         Navigator.pop(context);
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       });
@@ -62,11 +62,16 @@ Future<void> losSignUp(BuildContext context, Map<String, dynamic> data) async {
           'profile-image': '',
           'team-code': '',
           'address': data['address'],
+          'age': data['age'],
+          'height': data['height'],
+          'weight': data['weight'],
+          'favorite-sports': data['favorite-sports'],
+          'name': data['name'],
           'nickname': data['nickname'],
           'created-at': DateTime.now(),
         },
       ).then((_) {
-        userProvider.linkUserFromJson(data);
+        userProvider.linkUserFromJson(data, userCredential.user);
         Navigator.pop(context);
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       });

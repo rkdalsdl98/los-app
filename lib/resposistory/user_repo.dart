@@ -25,5 +25,17 @@ class UserRepo {
 
   void unLinkUserData() {
     _userData = null;
+    user = null;
+  }
+
+  void linkUser(User? newUser) {
+    user = newUser;
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() async {
+    return await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .get();
   }
 }

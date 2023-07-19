@@ -71,13 +71,10 @@ class _HomeState extends State<Home> {
                   constraints: BoxConstraints.tight(const Size.fromWidth(500)),
                   child: IndexedStack(
                     index: provider.selectedPage,
-                    children: [
-                      const HomeMainPage(),
-                      const HomeTeamPage(),
-                      if (MediaQuery.of(context).size.height < 530)
-                        const SingleChildScrollView(child: HomeMyPage()),
-                      if (MediaQuery.of(context).size.height > 530)
-                        const HomeMyPage(),
+                    children: const [
+                      HomeMainPage(),
+                      HomeTeamPage(),
+                      SingleChildScrollView(child: HomeMyPage()),
                     ],
                   ),
                 ),
