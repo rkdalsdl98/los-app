@@ -178,7 +178,7 @@ class HomeAppBar extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            UserProfileIcon(profileImage: provider.userData?.profileImage),
+            UserProfileIcon(profileImage: null),
             const SizedBox(
               height: 10,
             ),

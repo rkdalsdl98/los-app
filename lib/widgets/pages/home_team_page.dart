@@ -50,6 +50,8 @@ class HomeTeamPage extends StatelessWidget {
                   roundedButtonHelper(
                     context,
                     text: '팀 만들기',
+                    onPressEvent: () =>
+                        Navigator.pushNamed(context, '/register-team'),
                   ),
                   roundedButtonHelper(
                     context,

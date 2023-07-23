@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:los_app/provider/page_provider.dart';
-import 'package:los_app/widgets/pages/home_my_page.dart';
-import 'package:los_app/widgets/pages/home_team_page.dart';
 import 'package:provider/provider.dart';
 
 import '../system/message.dart';
 import '../widgets/pages/home_main_page.dart';
+import '../widgets/pages/home_my_page.dart';
+import '../widgets/pages/home_team_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
