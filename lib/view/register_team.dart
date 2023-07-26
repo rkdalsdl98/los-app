@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:los_app/provider/team_provider.dart';
 import 'package:los_app/provider/user_provider.dart';
 import 'package:los_app/system/func.dart';
 import 'package:los_app/system/message.dart';
@@ -47,7 +48,7 @@ class _RegisterTeamState extends State<RegisterTeam>
     lottieController.dispose();
   }
 
-  Future<void> uploadImage() async {
+  Future<String> uploadImage() async {
     final refImg = FirebaseStorage.instance
         .ref()
         .child('profile')
@@ -55,6 +56,7 @@ class _RegisterTeamState extends State<RegisterTeam>
     await refImg.putFile(File(selImageFile!.path));
 
     final imgUrl = await refImg.getDownloadURL();
+    return imgUrl;
   }
 
   Future<void> registTeam() async {
@@ -64,6 +66,12 @@ class _RegisterTeamState extends State<RegisterTeam>
       if (teamName.isNotEmpty &&
           (match(teamName, ValidateType.teamName) &&
               !match(teamName, ValidateType.specialChar))) {
+        final teamProvider = context.read<TeamProvider>();
+        final userProvider = context.read<UserProvider>();
+        final imageUrl = selImageFile != null ? await uploadImage() : null;
+        await teamProvider.registerTeam(
+            teamName, imageUrl, userProvider.userData, userProvider.user);
+        resgisterSuccess(teamName);
       } else {
         helpText = '팀명은 특수문자를 제외한 2글자 이상 10글자 이내로 작성해주세요.';
         showHelpText = true;
@@ -71,17 +79,31 @@ class _RegisterTeamState extends State<RegisterTeam>
     } catch (e) {
       if (e.toString().contains('NullRegTypeException')) {
         print('존재 하지 않는 검증타입');
+        snackBarMessage(
+          context,
+          '예기치 못한 오류가 발생했습니다.',
+          const Icon(
+            Icons.warning_rounded,
+            color: Colors.red,
+          ),
+        );
       } else {
+        // var e2 = (e ?? <String, dynamic>{}) as Map<String, dynamic>;
+
+        // if (e2.isNotEmpty && e2['exception'] != null) {
+        //   snackBarErrorMessage(context, e2['message'], e2['exception']);
+        //   return;
+        // }
         print(e);
+        snackBarMessage(
+          context,
+          '예기치 못한 오류가 발생했습니다.',
+          const Icon(
+            Icons.warning_rounded,
+            color: Colors.red,
+          ),
+        );
       }
-      snackBarMessage(
-        context,
-        '예기치 못한 오류가 발생했습니다.',
-        const Icon(
-          Icons.warning_rounded,
-          color: Colors.red,
-        ),
-      );
     }
     setState(() {});
   }
@@ -136,7 +158,11 @@ class _RegisterTeamState extends State<RegisterTeam>
                     const SizedBox(height: 10),
                     CircleTextButton(
                       text: '확인',
-                      onPressEvent: () => Navigator.pop(context),
+                      onPressEvent: () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/home',
+                        (route) => false,
+                      ),
                     ),
                   ],
                 ),

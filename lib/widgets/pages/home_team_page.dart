@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:los_app/design/dimensions.dart';
-import 'package:los_app/provider/user_provider.dart';
+import 'package:los_app/provider/team_provider.dart';
+import 'package:los_app/system/func.dart';
 import 'package:los_app/widgets/global/circle_text_large.dart';
 import 'package:los_app/widgets/global/custom_text_wraper.dart';
 import 'package:provider/provider.dart';
+
+import '../../datasource/dto/team_dto.dart';
 
 class HomeTeamPage extends StatelessWidget {
   const HomeTeamPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserProvider>(
+    return Consumer<TeamProvider>(
       builder: (_, provider, __) {
-        final bool hasTeam = provider.userData?.teamCode == null;
-        return hasTeam ? const Team() : emptyTeam(context);
+        return provider.team != null
+            ? Team(
+                teamData: provider.team!,
+              )
+            : emptyTeam(context);
       },
     );
   }
@@ -112,8 +118,11 @@ class HomeTeamPage extends StatelessWidget {
 }
 
 class Team extends StatelessWidget {
+  final TeamDto teamData;
+
   const Team({
     super.key,
+    required this.teamData,
   });
 
   @override
@@ -153,7 +162,7 @@ class Team extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '움직이면던짐',
+                    teamData.teamName!,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 16,
@@ -191,7 +200,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: 'Rank',
-                        content: 'Platinum',
+                        content: teamData.tier!,
                         assetImage: Image.asset(
                           'assets/img/medal.png',
                           width: 18,
@@ -210,7 +219,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: 'Los Team Point',
-                        content: '1,000 LP',
+                        content: '${addCommas(teamData.point!)} LP',
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -222,7 +231,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: '친절도',
-                        content: '3.0 점',
+                        content: '${teamData.kindness} 점',
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -238,7 +247,8 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: '팀 생성일',
-                        content: '2023-06-27',
+                        content: dateFormat(
+                            '${DateTime.fromMillisecondsSinceEpoch(teamData.createdAt! * 1000)}'),
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -265,7 +275,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: '오늘 경기 횟수',
-                        content: '0',
+                        content: '${teamData.todayPlayedCount}',
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -277,7 +287,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: '오늘 경기 남은 횟수',
-                        content: '1',
+                        content: '${teamData.todayMaxPlayedCount}',
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -289,7 +299,7 @@ class Team extends StatelessWidget {
                       context,
                       CustomTextWraper(
                         title: '인원수',
-                        content: '20',
+                        content: '${teamData.members!.length}',
                         alignment: MainAxisAlignment.center,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 5),

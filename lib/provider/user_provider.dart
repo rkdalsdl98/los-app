@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:los_app/datasource/api_manager.dart';
+import 'package:los_app/datasource/local_manager.dart';
 import 'package:los_app/resposistory/user_repo.dart';
 
 import '../model/user_data_model.dart';
 
 class UserProvider with ChangeNotifier {
-  final UserRepo _userRepo = UserRepo();
+  late UserRepo _userRepo;
 
   User? get user => _userRepo.user;
   UserDataModel? get userData => _userRepo.userData;
@@ -14,30 +18,43 @@ class UserProvider with ChangeNotifier {
   FirebaseAuth get authentication => _userRepo.authentication;
 
   UserProvider() {
-    if (_userRepo.user != null) {
-      _getUserDoc().then((value) => linkUserFromDoc(value, _userRepo.user));
-    }
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>> _getUserDoc() async {
-    return await _userRepo.getUserDoc();
+    _userRepo = UserRepo(ApiClient());
+    LocalMamanger.getStringData('user').then((value) {
+      if (value != null) {
+        final toJson = jsonDecode(value);
+        _userRepo.linkUserDataFromJson(toJson);
+      }
+      notifyListeners();
+    });
   }
 
   void linkUserFromDoc(
       DocumentSnapshot<Map<String, dynamic>>? snapshot, User? newUser) {
-    _userRepo.linkUserDataFromDoc(snapshot);
-    _userRepo.linkUser(newUser);
-    notifyListeners();
+    try {
+      _userRepo.linkUserDataFromDoc(snapshot);
+      _userRepo.linkUser(newUser);
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void linkUserFromJson(Map<String, dynamic> json, User? newUser) {
-    _userRepo.linkUserDataFromJson(json);
-    _userRepo.linkUser(newUser);
-    notifyListeners();
+    try {
+      _userRepo.linkUserDataFromJson(json);
+      _userRepo.linkUser(newUser);
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void unLinkUserData() {
-    _userRepo.unLinkUserData();
-    notifyListeners();
+    try {
+      _userRepo.unLinkUserData();
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

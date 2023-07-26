@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:los_app/provider/team_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/user_provider.dart';
 import 'loading.dart';
 
 void losSignOut(BuildContext context) {
-  final provider = context.read<UserProvider>();
+  final userProvider = context.read<UserProvider>();
+  final teamProvider = context.read<TeamProvider>();
+
   Navigator.pop(context);
-  provider.unLinkUserData();
-  provider.authentication.signOut();
+  userProvider.unLinkUserData();
+  teamProvider.unLinkTeamData();
+  userProvider.authentication.signOut();
   Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
 }
 
@@ -58,17 +62,17 @@ Future<void> losSignUp(BuildContext context, Map<String, dynamic> data) async {
           .set(
         {
           'email': data['userId'],
-          'phone-number': data['phoneNumber'],
-          'profile-image': '',
-          'team-code': '',
+          'phoneNumber': data['phoneNumber'],
+          'profileImage': '',
+          'teamCode': '',
           'address': data['address'],
           'age': data['age'],
           'height': data['height'],
           'weight': data['weight'],
-          'favorite-sports': data['favorite-sports'],
+          'favoriteSports': data['favoriteSports'],
           'name': data['name'],
           'nickname': data['nickname'],
-          'created-at': DateTime.now(),
+          'createdAt': DateTime.now(),
         },
       ).then((_) {
         userProvider.linkUserFromJson(data, userCredential.user);

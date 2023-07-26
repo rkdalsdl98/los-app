@@ -6,42 +6,57 @@ class UserDataModel {
       phoneNumber,
       profileImage,
       teamCode,
-      nickName,
+      nickname,
       age,
       height,
       weight,
       favoriteSports,
       name;
-  Timestamp? createdAt;
 
+  int? createdAt;
   UserDataModel.fromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
     if (snapshot != null) {
       address = snapshot['address'];
-      createdAt = snapshot['created-at'];
+      createdAt = int.parse(snapshot['createdAt']);
       email = snapshot['email'];
-      phoneNumber = snapshot['phone-number'];
-      profileImage = snapshot['profile-image'];
-      teamCode = snapshot['team-code'];
+      phoneNumber = snapshot['phoneNumber'];
+      profileImage = snapshot['profileImage'];
+      teamCode = snapshot['teamCode'];
       age = snapshot['age'];
       height = snapshot['height'];
       weight = snapshot['weight'];
-      favoriteSports = snapshot['favorite-sports'];
+      favoriteSports = snapshot['favoriteSports'];
       name = snapshot['name'];
-      nickName = snapshot['nickname'];
+      nickname = snapshot['nickname'];
     }
   }
 
   UserDataModel.fromJson(Map<String, dynamic> json)
       : address = json['address'],
-        createdAt = json['created-at'],
+        createdAt = json['createdAt'],
         email = json['email'],
-        phoneNumber = json['phone-number'],
-        profileImage = json['profile-image'],
-        teamCode = json['team-code'],
-        nickName = json['nickname'],
+        phoneNumber = json['phoneNumber'],
+        profileImage = json['profileImage'],
+        teamCode = json['teamCode'],
+        nickname = json['nickname'],
         age = json['age'],
         height = json['height'],
         weight = json['weight'],
-        favoriteSports = json['favorite-sports'],
+        favoriteSports = json['favoriteSports'],
         name = json['name'];
+
+  Map<String, dynamic> toJson() => {
+        "address": address,
+        "createdAt": createdAt,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "profileImage": profileImage,
+        "teamCode": teamCode,
+        "nickname": nickname,
+        "age": age,
+        "height": height,
+        "weight": weight,
+        "favoriteSports": favoriteSports,
+        "name": name,
+      };
 }

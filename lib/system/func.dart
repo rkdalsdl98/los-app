@@ -19,3 +19,12 @@ bool match(String str, ValidateType type) {
   if (reg == null) throw 'NullRegTypeException';
   return validateRegs[type]!.hasMatch(str);
 }
+
+String addCommas(int num) {
+  RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  return num.toString().replaceAllMapped(reg, (match) => '${match[1]},');
+}
+
+String dateFormat(String dateStr) {
+  return dateStr.substring(0, 10);
+}

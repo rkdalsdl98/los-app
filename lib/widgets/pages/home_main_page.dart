@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:los_app/provider/team_provider.dart';
 import 'package:los_app/provider/user_provider.dart';
 import 'package:los_app/widgets/global/user_profile_icon.dart';
 import 'package:los_app/widgets/rank/ranking.dart';
 import 'package:provider/provider.dart';
 
+import '../../datasource/dto/team_dto.dart';
 import '../global/long_horizontal_button.dart';
 import '../lately_game_details_item.dart';
 import '../rank/rising_rank_team.dart';
@@ -131,9 +133,8 @@ class HomeAppBar extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Consumer<UserProvider>(builder: (_, provider, __) {
-              return provider.userData?.teamCode == null ||
-                      provider.userData!.teamCode!.isEmpty
+            child: Consumer<TeamProvider>(builder: (_, provider, __) {
+              return provider.team == null
                   ? userInfoHelper(context)
                   : userInfoWithTeamHelper(context);
             }),
@@ -183,7 +184,7 @@ class HomeAppBar extends StatelessWidget {
               height: 10,
             ),
             Text(
-              '${provider.userData?.nickName} 님 환영합니다!\n팀을 꾸리거나 합류해 보세요!',
+              '${provider.userData?.nickname} 님 환영합니다!\n팀을 꾸리거나 합류해 보세요!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -199,7 +200,10 @@ class HomeAppBar extends StatelessWidget {
   }
 }
 
-Column userInfoWithTeamHelper(BuildContext context) {
+Column userInfoWithTeamHelper(
+  BuildContext context, {
+  TeamDto? team,
+}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -229,15 +233,18 @@ Column userInfoWithTeamHelper(BuildContext context) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${context.read<UserProvider>().userData!.nickName} 님 환영합니다!',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  fontSize: 14,
-                  fontFamily: 'SpoqaHanSans',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Consumer<UserProvider>(builder: (_, provider, __) {
+                final userData = provider.userData;
+                return Text(
+                  userData != null ? '${userData.nickname} 님 환영합니다!' : 'Empty',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    fontSize: 14,
+                    fontFamily: 'SpoqaHanSans',
+                    fontWeight: FontWeight.w500,
+                  ),
+                );
+              }),
               Text(
                 '팀의 남은 경기 횟수는 1 회 입니다.',
                 style: TextStyle(

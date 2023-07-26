@@ -265,7 +265,7 @@ class _SignState extends State<Sign> {
                               }
                               return null;
                             },
-                            type: 'favorite-sports',
+                            type: 'favoriteSports',
                             controller: inputFavoriteSportsController,
                             hintText: '자신이 가장좋아하는 운동종목을 입력해주세요.',
                             prefixIcon: null,

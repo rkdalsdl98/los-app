@@ -7,6 +7,8 @@ import 'package:los_app/widgets/global/custom_slider_box.dart';
 import 'package:los_app/widgets/global/default_user_profile_icon.dart';
 import 'package:provider/provider.dart';
 
+import '../../system/func.dart';
+
 class HomeMyPage extends StatefulWidget {
   const HomeMyPage({super.key});
 
@@ -22,6 +24,7 @@ class _HomeMyPageState extends State<HomeMyPage> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Consumer<UserProvider>(builder: (_, provider, __) {
+        final userData = provider.userData;
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -52,7 +55,7 @@ class _HomeMyPageState extends State<HomeMyPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "${provider.userData?.nickName}",
+                      "${provider.userData?.nickname}",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onBackground,
                         fontSize: 16,
@@ -74,7 +77,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '생성일: ${provider.userData?.createdAt?.toDate().toString().substring(0, 11)}\n이메일: ${provider.userData?.email}\n소속: 움직이면던짐',
+                    userData != null
+                        ? '생성일: ${dateFormat('${userData.createdAt! * 1000}')}\n이메일: ${userData.email}\n소속: 움직이면던짐'
+                        : 'Empty',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Theme.of(context)
@@ -96,7 +101,7 @@ class _HomeMyPageState extends State<HomeMyPage> {
                       context,
                       title: '이름',
                       true,
-                      content: '${provider.userData?.name}',
+                      content: userData != null ? '${userData.name}' : 'Empty',
                       padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 25,
@@ -107,7 +112,8 @@ class _HomeMyPageState extends State<HomeMyPage> {
                       context,
                       true,
                       title: '주소',
-                      content: '${provider.userData?.address}',
+                      content:
+                          userData != null ? '${userData.address}' : 'Empty',
                       padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 25,
@@ -118,7 +124,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                       context,
                       title: '전화번호',
                       true,
-                      content: '${provider.userData?.phoneNumber}',
+                      content: userData != null
+                          ? '${userData.phoneNumber}'
+                          : 'Empty',
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 20),
                       width: 160 * getScaleFactorFromWidth(context),
@@ -130,7 +138,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                           context,
                           title: '이름',
                           true,
-                          content: '${provider.userData?.nickName}',
+                          content: userData != null
+                              ? '${userData.nickname}'
+                              : 'Empty',
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 20),
                           width: 140 * getScaleFactorFromWidth(context),
@@ -141,7 +151,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                           context,
                           title: '키',
                           true,
-                          content: '${provider.userData?.height}cm',
+                          content: userData != null
+                              ? '${userData.height}cm'
+                              : 'Empty',
                           padding: const EdgeInsets.symmetric(
                             vertical: 5,
                             horizontal: 25,
@@ -153,7 +165,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                           context,
                           title: '몸무게',
                           true,
-                          content: '${provider.userData?.weight}kg',
+                          content: userData != null
+                              ? '${userData.weight}kg'
+                              : 'Empty',
                           padding: const EdgeInsets.symmetric(
                             vertical: 5,
                             horizontal: 25,
@@ -166,7 +180,9 @@ class _HomeMyPageState extends State<HomeMyPage> {
                       context,
                       title: '좋아하는 운동',
                       true,
-                      content: '${provider.userData?.favoriteSports}',
+                      content: userData != null
+                          ? '${userData.favoriteSports}'
+                          : 'Empty',
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 20),
                       width: 160 * getScaleFactorFromWidth(context),

@@ -19,8 +19,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<PageProvider>(
-      create: (_) => PageProvider(0),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PageProvider>(create: (_) => PageProvider(0)),
+      ],
       child: Consumer<PageProvider>(
         builder: (_, provider, __) {
           return Scaffold(

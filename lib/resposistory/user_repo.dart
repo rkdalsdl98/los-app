@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:los_app/datasource/api_manager.dart';
+import 'package:los_app/datasource/local_manager.dart';
 import 'package:los_app/model/user_data_model.dart';
 
 class UserRepo {
-  late User? user;
+  late User? _user;
+  late ApiClient _apiClient;
 
   final FirebaseAuth _authentication = FirebaseAuth.instance;
   FirebaseAuth get authentication => _authentication;
@@ -11,31 +16,46 @@ class UserRepo {
   UserDataModel? _userData;
   UserDataModel? get userData => _userData;
 
-  UserRepo() {
-    user = _authentication.currentUser;
+  User? get user => _user;
+
+  UserRepo(ApiClient client) {
+    _apiClient = client;
+    _user = _authentication.currentUser;
   }
 
   void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
-    _userData = UserDataModel.fromDoc(snapshot);
+    try {
+      _userData = UserDataModel.fromDoc(snapshot);
+      LocalMamanger.saveStringData('user', jsonEncode(_userData!.toJson()));
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void linkUserDataFromJson(Map<String, dynamic> json) {
-    _userData = UserDataModel.fromJson(json);
+    try {
+      _userData = UserDataModel.fromJson(json);
+      LocalMamanger.saveStringData('user', jsonEncode(_userData!.toJson()));
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void unLinkUserData() {
-    _userData = null;
-    user = null;
+    try {
+      _userData = null;
+      _user = null;
+      LocalMamanger.removeData('user');
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void linkUser(User? newUser) {
-    user = newUser;
+    _user = newUser;
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc() async {
-    return await FirebaseFirestore.instance
-        .collection('user')
-        .doc(user!.uid)
-        .get();
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String col) async {
+    return await _apiClient.getDoc(col, _user!.uid);
   }
 }
