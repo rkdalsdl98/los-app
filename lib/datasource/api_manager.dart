@@ -35,7 +35,7 @@ class ApiClient {
       final serverUrl = dotenv.env['BASEURL'];
       final parseUri = Uri.parse('$serverUrl/team/regist');
 
-      final body = jsonEncode(RegisterTeamDto.toJson(teamInfo));
+      final body = jsonEncode(teamInfo.toJson());
       final res = await http.post(
         parseUri,
         body: body,

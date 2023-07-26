@@ -8,11 +8,11 @@ class RequesterDto {
         privateId = obj['privateId'],
         nickname = obj['nickname'];
 
-  static Map<String, dynamic> toJson(RequesterDto requester) => {
-        "email": requester.email,
-        "phoneNumber": requester.phoneNumber,
-        "profileImageUrl": requester.profileImageUrl,
-        "privateId": requester.privateId,
-        "nickname": requester.nickname,
+  Map<String, dynamic> toJson() => {
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "profileImageUrl": profileImageUrl,
+        "privateId": privateId,
+        "nickname": nickname,
       };
 }

@@ -10,9 +10,9 @@ class RegisterTeamDto {
         teamMarkUrl = obj['teamMarkUrl'],
         teamName = obj['teamName'];
 
-  static Map<String, dynamic> toJson(RegisterTeamDto rtd) => {
-        "requester": RequesterDto.toJson(rtd.requester),
-        "teamMarkUrl": rtd.teamMarkUrl,
-        "teamName": rtd.teamName,
+  Map<String, dynamic> toJson() => {
+        "requester": requester.toJson(),
+        "teamMarkUrl": teamMarkUrl,
+        "teamName": teamName,
       };
 }
