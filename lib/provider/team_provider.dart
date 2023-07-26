@@ -74,7 +74,6 @@ class TeamProvider with ChangeNotifier {
         _streamSub = _teamDocRef!.snapshots().listen((document) {
           var teamData = document.data();
           _teamRepo.onlyLinkTeamFromJsonData(teamData as Map<String, dynamic>);
-          print('hi');
           notifyListeners();
         });
       }
