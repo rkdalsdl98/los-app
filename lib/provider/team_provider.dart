@@ -29,7 +29,6 @@ class TeamProvider with ChangeNotifier {
         userData,
         user,
       );
-      print(team);
       if (team == null) throw "NullTeamData";
       _teamRepo.linkTeamFromJsonData(team, user!.uid);
       notifyListeners();
