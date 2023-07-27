@@ -17,24 +17,24 @@ class InputField extends StatelessWidget {
   final InputDecoration? customDecoration;
   final int? maxLength;
 
-  const InputField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.prefixIcon,
-      this.suffixText,
-      required this.type,
-      this.addData,
-      required this.validator,
-      this.obscureText = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 20),
-      this.align = TextAlign.start,
-      this.alignVertical,
-      this.suffixIcon,
-      this.textInputType,
-      this.customDecoration,
-      this.maxLength});
-
+  const InputField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.prefixIcon,
+    this.suffixText,
+    required this.type,
+    this.addData,
+    required this.validator,
+    this.obscureText = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 20),
+    this.align = TextAlign.start,
+    this.alignVertical,
+    this.suffixIcon,
+    this.textInputType,
+    this.customDecoration,
+    this.maxLength,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(

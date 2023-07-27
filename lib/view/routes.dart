@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/view/chat.dart';
 import 'package:los_app/view/home.dart';
 import 'package:los_app/view/main_login_view.dart';
 import 'package:los_app/view/post_detail.dart';
@@ -19,7 +20,9 @@ Route<dynamic>? initGeneratedRoutes(RouteSettings settings) {
     case '/postdetail':
       return MaterialPageRoute(builder: (_) => const PostDetail());
     case '/register-team':
-      return MaterialPageRoute(builder: (_) => RegisterTeam());
+      return MaterialPageRoute(builder: (_) => const RegisterTeam());
+    case '/chat':
+      return MaterialPageRoute(builder: (_) => const Chat());
     default:
       return null;
   }

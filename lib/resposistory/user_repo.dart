@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:los_app/datasource/api_manager.dart';
 import 'package:los_app/datasource/local_manager.dart';
+import 'package:los_app/model/team_model.dart';
 import 'package:los_app/model/user_data_model.dart';
 
 class UserRepo {
@@ -22,6 +23,9 @@ class UserRepo {
     _apiClient = client;
     _user = _authentication.currentUser;
   }
+
+  TeamModel? _team;
+  TeamModel? get team => _team;
 
   void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
     try {
@@ -57,5 +61,13 @@ class UserRepo {
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String col) async {
     return await _apiClient.getDoc(col, _user!.uid);
+  }
+
+  void linkTeam(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
+    _team = TeamModel.fromDoc(snapshot);
+  }
+
+  void unLinkTeam() {
+    _team = null;
   }
 }
