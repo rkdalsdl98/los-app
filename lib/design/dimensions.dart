@@ -5,5 +5,5 @@ double getScaleFactorFromWidth(BuildContext context) {
 }
 
 double getScaleFactorFromHeight(BuildContext context) {
-  return (MediaQuery.of(context).size.height / 360);
+  return (MediaQuery.of(context).size.height / 480);
 }

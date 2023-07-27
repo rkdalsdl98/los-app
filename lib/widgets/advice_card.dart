@@ -45,28 +45,27 @@ class AdviceCard extends StatelessWidget {
           ),
           Center(
             child: Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Column(
-                children: [
-                  Text(
-                    '오늘의 띵언 카드',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                      fontSize: 11 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
-                    ),
+              padding: const EdgeInsets.only(top: 10),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.tertiaryContainer,
+                    fontSize: 10 * getScaleFactorFromWidth(context),
+                    fontFamily: 'SpoqaHanSans',
+                    fontWeight: FontWeight.w600,
+                    height: 1.6,
                   ),
-                  Text(
-                    '" 몸을 잘 돌보고 조심해서 다뤄라 "',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiaryContainer,
-                      fontSize: 9 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
+                  text: '오늘의 띵언 카드\n',
+                  children: [
+                    TextSpan(
+                      text: '" 몸을 잘 돌보고 조심해서 다뤄라 "',
+                      style: TextStyle(
+                        fontSize: 8 * getScaleFactorFromWidth(context),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

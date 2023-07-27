@@ -11,7 +11,7 @@ class WeatherInfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 5 * getScaleFactorFromWidth(context),
+        horizontal: 6 * getScaleFactorFromWidth(context),
         vertical: 2,
       ),
       decoration: BoxDecoration(

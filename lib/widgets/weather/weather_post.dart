@@ -39,7 +39,7 @@ class WeatherPost extends StatelessWidget {
                 size: 10 * getScaleFactorFromWidth(context),
               ),
               const SizedBox(
-                width: 30,
+                width: 40,
               ),
               Text(
                 '날씨 게시판',
@@ -51,7 +51,7 @@ class WeatherPost extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 30,
+                width: 40,
               ),
               Icon(
                 Icons.push_pin_rounded,
@@ -61,7 +61,7 @@ class WeatherPost extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 5,
+            height: 10,
           ),
           const Column(
             children: [

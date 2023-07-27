@@ -81,8 +81,8 @@ class Weather extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 10 * getScaleFactorFromWidth(context),
-                            vertical: 5,
+                            horizontal: 15 * getScaleFactorFromWidth(context),
+                            vertical: 10,
                           ),
                           decoration: BoxDecoration(
                             color:
