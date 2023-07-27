@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:los_app/datasource/api_manager.dart';
 import 'package:los_app/datasource/local_manager.dart';
 import 'package:los_app/model/notify_model.dart';
@@ -65,44 +66,49 @@ class UserProvider with ChangeNotifier {
     } catch (e) {
       rethrow;
     }
+  }
 
-    void joinChattingRomm() {
-      try {
-        _chattingClient = io(
-          'http://localhost/chat',
-          OptionBuilder()
-              .setTransports(['websocket'])
-              .disableAutoConnect()
-              .build(),
-        );
-        if (!_chattingClient!.connected) {
-          _chattingClient!.connect();
-        }
-      } catch (e) {
-        rethrow;
+  void joinChattingRomm() {
+    try {
+      if (team!.linkedChattingCode == null) {
+        throw 'LinkedChatRoomNotFound';
       }
+      final serverUrl = dotenv.env['BASEURL'];
 
-      _chattingClient!.on('connect', (_) {
-        print('connect');
-        _chattingClient!.emit('join-room', team!.linkedChattindCode);
-      });
-      _chattingClient!.on('notify', (data) {
-        try {
-          NotifyModel notify = NotifyModel.fromJson(data);
-        } catch (e) {
-          print(e);
-        }
-      });
-      _chattingClient!.on('message', (msg) => messages.add(msg));
-      _chattingClient!.on('disconnect', (_) => print('disconnect room'));
-
-      notifyListeners();
+      _chattingClient = io(
+        '$serverUrl/chat',
+        OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .build(),
+      );
+      if (!_chattingClient!.connected) {
+        _chattingClient!.connect();
+      }
+    } catch (e) {
+      rethrow;
     }
 
-    void disconnectChattingRoom() {
-      _chattingClient!.close();
-      _chattingClient = null;
-      notifyListeners();
-    }
+    _chattingClient!.on('connect', (_) {
+      print('connect');
+      _chattingClient!.emit('join-room', team!.linkedChattingCode);
+    });
+    _chattingClient!.on('notify', (data) {
+      try {
+        NotifyModel notify = NotifyModel.fromJson(data);
+      } catch (e) {
+        print(e);
+      }
+    });
+    _chattingClient!.on('message', (msg) => messages.add(msg));
+    _chattingClient!.on('disconnect', (_) => print('disconnect room'));
+
+    notifyListeners();
+  }
+
+  void disconnectChattingRoom() {
+    _chattingClient!.close();
+    _chattingClient = null;
+    notifyListeners();
   }
 }
