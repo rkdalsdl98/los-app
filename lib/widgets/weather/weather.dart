@@ -49,8 +49,8 @@ class Weather extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 160 * getScaleFactorFromWidth(context),
-                    height: 160 * getScaleFactorFromWidth(context),
+                    width: 180 * getScaleFactorFromWidth(context),
+                    height: 180 * getScaleFactorFromWidth(context),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.background,
                       borderRadius: const BorderRadius.all(
@@ -81,7 +81,7 @@ class Weather extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 15 * getScaleFactorFromWidth(context),
+                            horizontal: 20 * getScaleFactorFromWidth(context),
                             vertical: 10,
                           ),
                           decoration: BoxDecoration(

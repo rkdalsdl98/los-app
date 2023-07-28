@@ -18,8 +18,8 @@ class RankItem extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: 22,
               maxHeight: 27,
-              minWidth: 150 * getScaleFactorFromWidth(context),
-              maxWidth: 160 * getScaleFactorFromWidth(context),
+              minWidth: 170 * getScaleFactorFromWidth(context),
+              maxWidth: 170 * getScaleFactorFromWidth(context),
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.background,

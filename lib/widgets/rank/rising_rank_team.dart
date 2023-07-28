@@ -15,8 +15,8 @@ class RisingRankTeam extends StatelessWidget {
       constraints: BoxConstraints(
         minHeight: 145,
         maxHeight: 155,
-        minWidth: 150 * getScaleFactorFromWidth(context),
-        maxWidth: 160 * getScaleFactorFromWidth(context),
+        minWidth: 170 * getScaleFactorFromWidth(context),
+        maxWidth: 170 * getScaleFactorFromWidth(context),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: const Column(

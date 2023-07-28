@@ -9,7 +9,7 @@ class AdviceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 160 * getScaleFactorFromWidth(context),
+      width: 180 * getScaleFactorFromWidth(context),
       height: 110,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onTertiaryContainer,
@@ -37,7 +37,7 @@ class AdviceCard extends StatelessWidget {
               'LOS',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.tertiaryContainer,
-                fontSize: 10 * getScaleFactorFromWidth(context),
+                fontSize: 12 * getScaleFactorFromWidth(context),
                 fontFamily: 'SpoqaHanSans',
                 fontWeight: FontWeight.w600,
               ),
@@ -51,7 +51,7 @@ class AdviceCard extends StatelessWidget {
                 text: TextSpan(
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.tertiaryContainer,
-                    fontSize: 10 * getScaleFactorFromWidth(context),
+                    fontSize: 12 * getScaleFactorFromWidth(context),
                     fontFamily: 'SpoqaHanSans',
                     fontWeight: FontWeight.w600,
                     height: 1.6,
@@ -61,7 +61,7 @@ class AdviceCard extends StatelessWidget {
                     TextSpan(
                       text: '" 몸을 잘 돌보고 조심해서 다뤄라 "',
                       style: TextStyle(
-                        fontSize: 8 * getScaleFactorFromWidth(context),
+                        fontSize: 10 * getScaleFactorFromWidth(context),
                       ),
                     ),
                   ],
@@ -72,12 +72,12 @@ class AdviceCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, right: 5),
+              padding: const EdgeInsets.only(top: 25, right: 5),
               child: Text(
                 'Advice By - 핑크덤벨요정',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.tertiaryContainer,
-                  fontSize: 5 * getScaleFactorFromWidth(context),
+                  fontSize: 4 * getScaleFactorFromWidth(context),
                   fontFamily: 'SpoqaHanSans',
                   fontWeight: FontWeight.w600,
                 ),

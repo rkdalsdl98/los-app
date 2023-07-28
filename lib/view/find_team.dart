@@ -27,67 +27,7 @@ class FindTeam extends StatelessWidget {
               ),
             ),
             FIndTeamSearchBox(controller: controller),
-            Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 5),
-              width: double.maxFinite,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.2),
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '팀명',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 8 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(width: 50 * getScaleFactorFromWidth(context)),
-                  Text(
-                    '친절도',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 8 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(width: 50 * getScaleFactorFromWidth(context)),
-                  Text(
-                    '랭크',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 8 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(width: 50 * getScaleFactorFromWidth(context)),
-                  Text(
-                    '인원수',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 8 * getScaleFactorFromWidth(context),
-                      fontFamily: 'SpoqaHanSans',
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            teamCategoryHelper(context),
             const Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -103,4 +43,68 @@ class FindTeam extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
     );
   }
+}
+
+Widget teamCategoryHelper(BuildContext context) {
+  return Container(
+    margin: const EdgeInsets.only(top: 20, bottom: 5),
+    width: double.maxFinite,
+    height: 30,
+    decoration: BoxDecoration(
+      color: Theme.of(context).colorScheme.background,
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(.2),
+          blurRadius: 1,
+          spreadRadius: 1,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '팀명',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 8 * getScaleFactorFromWidth(context),
+            fontFamily: 'SpoqaHanSans',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(width: 60 * getScaleFactorFromWidth(context)),
+        Text(
+          '친절도',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 8 * getScaleFactorFromWidth(context),
+            fontFamily: 'SpoqaHanSans',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(width: 60 * getScaleFactorFromWidth(context)),
+        Text(
+          '랭크',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 8 * getScaleFactorFromWidth(context),
+            fontFamily: 'SpoqaHanSans',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(width: 60 * getScaleFactorFromWidth(context)),
+        Text(
+          '인원수',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 8 * getScaleFactorFromWidth(context),
+            fontFamily: 'SpoqaHanSans',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    ),
+  );
 }

@@ -11,7 +11,7 @@ class WeatherPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      width: 160 * getScaleFactorFromWidth(context),
+      width: 180 * getScaleFactorFromWidth(context),
       height: 110,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -36,7 +36,7 @@ class WeatherPost extends StatelessWidget {
               Icon(
                 Icons.push_pin_rounded,
                 color: Theme.of(context).colorScheme.background,
-                size: 10 * getScaleFactorFromWidth(context),
+                size: 12 * getScaleFactorFromWidth(context),
               ),
               const SizedBox(
                 width: 40,
@@ -45,7 +45,7 @@ class WeatherPost extends StatelessWidget {
                 '날씨 게시판',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.background,
-                  fontSize: 10 * getScaleFactorFromWidth(context),
+                  fontSize: 12 * getScaleFactorFromWidth(context),
                   fontFamily: 'SpoqaHanSans',
                   fontWeight: FontWeight.w600,
                 ),
@@ -56,7 +56,7 @@ class WeatherPost extends StatelessWidget {
               Icon(
                 Icons.push_pin_rounded,
                 color: Theme.of(context).colorScheme.background,
-                size: 10 * getScaleFactorFromWidth(context),
+                size: 12 * getScaleFactorFromWidth(context),
               ),
             ],
           ),
