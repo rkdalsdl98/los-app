@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/design/dimensions.dart';
 
 import 'join_request_list.dart';
 
@@ -53,12 +54,12 @@ class TeamDrawer extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: SizedBox(
-                height: 32,
+                height: 32 * getScaleFactorFromWidth(context),
                 child: IconButton(
                   onPressed: () => onCloseDrawer(),
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    size: 16,
+                    size: 16 * getScaleFactorFromWidth(context),
                   ),
                 ),
               ),

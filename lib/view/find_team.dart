@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
 import 'package:los_app/design/dimensions.dart';
+import 'package:los_app/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/team/find_team_list_item.dart';
 import '../widgets/team/find_team_search_box.dart';
 
-class FindTeam extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
+class FindTeam extends StatefulWidget {
+  const FindTeam({super.key});
 
-  FindTeam({super.key});
+  @override
+  State<FindTeam> createState() => _FindTeamState();
+}
+
+class _FindTeamState extends State<FindTeam> {
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +36,17 @@ class FindTeam extends StatelessWidget {
             ),
             FIndTeamSearchBox(controller: controller),
             teamCategoryHelper(context),
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    FindTeamListItem(),
-                  ],
-                ),
+                child: Consumer<UserProvider>(builder: (_, provider, __) {
+                  final teamList = provider.teamList;
+                  return Column(
+                    children: [
+                      for (SimpleTeamInfoDto team in teamList ?? [])
+                        FindTeamListItem(info: team)
+                    ],
+                  );
+                }),
               ),
             )
           ],

@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
+import 'package:los_app/provider/user_provider.dart';
+import 'package:los_app/system/func.dart';
+import 'package:provider/provider.dart';
 
 import '../../design/dimensions.dart';
 import '../global/circle_text_button.dart';
 import '../global/circle_text_small.dart';
 
 class FindTeamListItem extends StatelessWidget {
+  final SimpleTeamInfoDto info;
+
   const FindTeamListItem({
     super.key,
+    required this.info,
   });
 
-  void showDetailModal(BuildContext context) {
+  void showDetailModal(
+    BuildContext context, {
+    Function(String)? onPressEvent,
+  }) {
     showDialog(
       context: context,
       builder: (dialogContext) => ScaffoldMessenger(
@@ -84,17 +94,17 @@ class FindTeamListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleTextSmall(
-                                text: '팀: 움직이면던짐',
+                                text: '팀: ${info.teamName}',
                                 scaleFactor:
                                     getScaleFactorFromHeight(builderContext),
                               ),
                               CircleTextSmall(
-                                text: '랭크: Bronze',
+                                text: '랭크: ${info.tier}',
                                 scaleFactor:
                                     getScaleFactorFromHeight(builderContext),
                               ),
                               CircleTextSmall(
-                                text: '친절도: 3.0 점',
+                                text: '친절도: ${info.kindness} 점',
                                 scaleFactor:
                                     getScaleFactorFromHeight(builderContext),
                               ),
@@ -108,7 +118,7 @@ class FindTeamListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleTextSmall(
-                                text: '인원수: 1 명',
+                                text: '인원수: ${info.memberCount} 명',
                                 scaleFactor:
                                     getScaleFactorFromHeight(builderContext),
                               ),
@@ -118,7 +128,8 @@ class FindTeamListItem extends StatelessWidget {
                                     getScaleFactorFromHeight(builderContext),
                               ),
                               CircleTextSmall(
-                                text: 'Los Team Point: 1,000 LP',
+                                text:
+                                    'Los Team Point: ${addCommas(info.point!)} LP',
                                 scaleFactor:
                                     getScaleFactorFromHeight(builderContext),
                               ),
@@ -138,7 +149,12 @@ class FindTeamListItem extends StatelessWidget {
                         children: [
                           CircleTextButton(
                             text: '가입신청',
-                            onPressEvent: () {},
+                            onPressEvent: onPressEvent != null
+                                ? () {
+                                    onPressEvent(info.teamCode!);
+                                    Navigator.pop(context);
+                                  }
+                                : null,
                             textStyle: TextStyle(
                               color: Theme.of(context)
                                   .colorScheme
@@ -213,7 +229,7 @@ class FindTeamListItem extends StatelessWidget {
                 ),
               ),
               Text(
-                '움직이면던짐',
+                info.teamName!,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 8 * getScaleFactorFromWidth(context),
@@ -225,7 +241,7 @@ class FindTeamListItem extends StatelessWidget {
           ),
           SizedBox(width: 40 * getScaleFactorFromWidth(context)),
           Text(
-            '3.0점',
+            '${info.kindness}점',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
               fontSize: 8 * getScaleFactorFromWidth(context),
@@ -235,7 +251,7 @@ class FindTeamListItem extends StatelessWidget {
           ),
           SizedBox(width: 50 * getScaleFactorFromWidth(context)),
           Text(
-            'Unknown',
+            info.tier!,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
               fontSize: 8 * getScaleFactorFromWidth(context),
@@ -247,7 +263,7 @@ class FindTeamListItem extends StatelessWidget {
           Row(
             children: [
               Text(
-                '1명',
+                '${info.memberCount}명',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 8 * getScaleFactorFromWidth(context),
@@ -256,23 +272,56 @@ class FindTeamListItem extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10 * getScaleFactorFromWidth(context)),
-              CircleTextButton(
-                text: '상세정보',
-                onPressEvent: () => showDetailModal(context),
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                textStyle: TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onBackground
-                      .withOpacity(.5),
-                  fontSize: 7 * getScaleFactorFromWidth(context),
-                  fontFamily: 'SpoqaHanSans',
-                  fontWeight: FontWeight.w700,
-                ),
+              Consumer<UserProvider>(
+                builder: (_, provider, __) {
+                  if (provider.subcribeTeamInfo == null) {
+                    return CircleTextButton(
+                      text: '상세정보',
+                      onPressEvent: () => showDetailModal(
+                        context,
+                        onPressEvent: provider.setSubcribeTeam,
+                      ),
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      textStyle: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(.5),
+                        fontSize: 7 * getScaleFactorFromWidth(context),
+                        fontFamily: 'SpoqaHanSans',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    );
+                  } else {
+                    final isSubcribe =
+                        provider.subcribeTeamInfo!['teamCode'] == info.teamCode;
+                    return CircleTextButton(
+                      isActive: isSubcribe,
+                      text: isSubcribe ? '가입취소' : '상세정보',
+                      onPressEvent: isSubcribe
+                          ? () => provider.removeSubcribeTeam()
+                          : null,
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      textStyle: TextStyle(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(.5),
+                        fontSize: 7 * getScaleFactorFromWidth(context),
+                        fontFamily: 'SpoqaHanSans',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    );
+                  }
+                },
               ),
             ],
           )

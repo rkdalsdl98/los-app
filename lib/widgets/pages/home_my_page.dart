@@ -78,7 +78,7 @@ class _HomeMyPageState extends State<HomeMyPage> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     userData != null
-                        ? '생성일: ${dateFormat('${userData.createdAt! * 1000}')}\n이메일: ${userData.email}\n소속: 움직이면던짐'
+                        ? '생성일: ${dateFormat('${DateTime.fromMillisecondsSinceEpoch(userData.createdAt! * 1000)}')}\n이메일: ${userData.email}\n소속: 움직이면던짐'
                         : 'Empty',
                     textAlign: TextAlign.right,
                     style: TextStyle(

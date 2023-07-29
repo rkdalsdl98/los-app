@@ -10,8 +10,8 @@ class DefaultUserProfileIconSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: scaleFactor != null ? 30 * scaleFactor! : 30,
-      height: scaleFactor != null ? 30 * scaleFactor! : 30,
+      width: scaleFactor != null ? 40 * scaleFactor! : 40,
+      height: scaleFactor != null ? 40 * scaleFactor! : 40,
       decoration: const BoxDecoration(
         color: Color(0xFFA6C4E5),
         borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -19,7 +19,7 @@ class DefaultUserProfileIconSmall extends StatelessWidget {
       child: Icon(
         Icons.person,
         color: const Color(0xFFE9F1F4),
-        size: scaleFactor != null ? 18 * scaleFactor! : 18,
+        size: scaleFactor != null ? 24 * scaleFactor! : 24,
       ),
     );
   }

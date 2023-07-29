@@ -6,6 +6,9 @@ import 'package:los_app/datasource/api_manager.dart';
 import 'package:los_app/datasource/local_manager.dart';
 import 'package:los_app/model/user_data_model.dart';
 
+import '../datasource/dto/simple_team_info_dto.dart';
+import '../datasource/model/join_request_model.dart';
+
 class UserRepo {
   late User? _user;
   late ApiClient _apiClient;
@@ -17,10 +20,16 @@ class UserRepo {
   UserDataModel? get userData => _userData;
 
   User? get user => _user;
+  List<SimpleTeamInfoDto>? _teamList;
+  List<SimpleTeamInfoDto>? get teamList => _teamList;
+
+  Map<String, dynamic>? _subcribeTeamInfo;
+  Map<String, dynamic>? get subcribeTeamInfo => _subcribeTeamInfo;
 
   UserRepo(ApiClient client) {
     _apiClient = client;
     _user = _authentication.currentUser;
+    refreshTeamList();
   }
 
   void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
@@ -56,6 +65,49 @@ class UserRepo {
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDoc(String col) async {
-    return await _apiClient.getDoc(col, _user!.uid);
+    try {
+      return await _apiClient.getDoc(col, _user!.uid);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<SimpleTeamInfoDto>> refreshTeamList() async {
+    try {
+      return await _apiClient.getTeamList().then((value) => _teamList = value);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setSubcribeTeam(JoinRequestModel req, String teamCode) async {
+    try {
+      var saveData = {"info": req.toJson(), "teamCode": teamCode};
+
+      LocalMamanger.saveStringData('subcribe-team', jsonEncode(saveData))
+          .then((_) => _subcribeTeamInfo = saveData);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeSubcribeTeam() async {
+    try {
+      LocalMamanger.removeData('subcribe-team')
+          .then((_) => _subcribeTeamInfo = null);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> linkSubcribeTeam() async {
+    await LocalMamanger.getStringData('subcribe-team').then((value) {
+      if (value == null) return;
+      final json = jsonDecode(value);
+      _subcribeTeamInfo = {
+        "info": json['info'],
+        "teamCode": json['teamCode'],
+      };
+    });
   }
 }

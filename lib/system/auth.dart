@@ -72,7 +72,8 @@ Future<void> losSignUp(BuildContext context, Map<String, dynamic> data) async {
           'favoriteSports': data['favoriteSports'],
           'name': data['name'],
           'nickname': data['nickname'],
-          'createdAt': DateTime.now(),
+          'createdAt':
+              '${(DateTime.timestamp().millisecondsSinceEpoch / 1000).floor()}',
         },
       ).then((_) {
         userProvider.linkUserFromJson(data, userCredential.user);

@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:los_app/datasource/dto/regist_res_dto.dart';
 import 'package:los_app/datasource/dto/register_team_dto.dart';
+import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
 
 class ApiClient {
   late FirebaseFirestore _firestore;
@@ -66,5 +67,24 @@ class ApiClient {
 
   Future<DocumentReference> getDocRef(String col, String docN) async {
     return _firestore.collection(col).doc(docN);
+  }
+
+  Future<List<SimpleTeamInfoDto>> getTeamList() async {
+    try {
+      final serverUrl = dotenv.env['BASEURL'];
+      final parseUri = Uri.parse('$serverUrl/team/list');
+      final res = await http.get(parseUri);
+
+      final List<SimpleTeamInfoDto> teams = [];
+      if (res.statusCode == 200) {
+        final jsons = jsonDecode(res.body);
+        for (var json in jsons as List<dynamic>) {
+          teams.add(SimpleTeamInfoDto.fromJson(json));
+        }
+      }
+      return teams;
+    } catch (e) {
+      rethrow;
+    }
   }
 }
