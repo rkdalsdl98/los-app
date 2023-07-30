@@ -74,6 +74,7 @@ Future<void> losSignUp(BuildContext context, Map<String, dynamic> data) async {
           'nickname': data['nickname'],
           'createdAt':
               '${(DateTime.timestamp().millisecondsSinceEpoch / 1000).floor()}',
+          'permission': 'default',
         },
       ).then((_) {
         userProvider.linkUserFromJson(data, userCredential.user);

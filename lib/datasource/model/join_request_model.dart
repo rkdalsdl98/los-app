@@ -4,7 +4,7 @@ class JoinRequestModel {
 
   JoinRequestModel.fromJson(Map<String, dynamic> json) {
     privateId = json['privateId'];
-    nickName = json['nickname'];
+    nickName = json['nickName'];
     age = json['age'];
     height = json['height'];
     weight = json['weight'];

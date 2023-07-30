@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:los_app/datasource/dto/regist_res_dto.dart';
 import 'package:los_app/datasource/dto/register_team_dto.dart';
 import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
+import 'package:los_app/datasource/model/join_request_model.dart';
 
 class ApiClient {
   late FirebaseFirestore _firestore;
@@ -83,6 +84,68 @@ class ApiClient {
         }
       }
       return teams;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> subcribeTeam(
+      String permission, JoinRequestModel body, String teamCode) async {
+    try {
+      final serverUrl = dotenv.env['BASEURL'];
+      final parseUri = Uri.parse('$serverUrl/team/join/$teamCode');
+      final res = await http.post(
+        parseUri,
+        body: jsonEncode(
+          {
+            "permission": permission,
+            "body": body,
+          },
+        ),
+        headers: {
+          "content-type": "application/json",
+        },
+      );
+
+      return jsonDecode(res.body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeSubcribeTeam(
+      String permission, JoinRequestModel body, String teamCode) async {
+    try {
+      final serverUrl = dotenv.env['BASEURL'];
+      final parseUri = Uri.parse('$serverUrl/team/remove/$teamCode');
+      final res = await http.delete(
+        parseUri,
+        body: jsonEncode(
+          {
+            "permission": permission,
+            "body": body,
+          },
+        ),
+        headers: {
+          "content-type": "application/json",
+        },
+      );
+      if (res.statusCode != 200) {
+        throw res.statusCode;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUserStreamDataByDoc(
+      String docN, String privateId) {
+    try {
+      return _firestore
+          .collection('user')
+          .doc(privateId)
+          .collection(docN)
+          .snapshots();
     } catch (e) {
       rethrow;
     }

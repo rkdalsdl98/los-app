@@ -58,66 +58,61 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<UserProvider>();
     return SliverAppBar(
       actions: [
-        Stack(
-          children: [
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('user')
-                  .doc(provider.user!.uid)
-                  .collection('alert')
-                  .snapshots(),
+        Consumer<UserProvider>(builder: (_, provider, __) {
+          return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: provider.streamList?['alert'],
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final alerts = snapshot.data;
-                  return Positioned(
-                    left: 25,
-                    top: 5,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.error,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(45),
+                final alerts = snapshot.data;
+                return Stack(
+                  children: [
+                    Positioned(
+                      left: 25,
+                      top: 5,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
                         ),
-                      ),
-                      child: Text(
-                        '${alerts!.docs.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontFamily: 'SpoqaHanSans',
-                          fontWeight: FontWeight.w700,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.error,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(45),
+                          ),
+                        ),
+                        child: Text(
+                          '${alerts != null ? alerts.docs.length : 0}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontFamily: 'SpoqaHanSans',
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimaryContainer
-                        .withOpacity(.5),
-                  ),
-                ),
-                const SizedBox(width: 5)
-              ],
-            ),
-          ],
-        ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => Navigator.pushNamed(
+                              context, '/persornal-reminder',
+                              arguments: {"alerts": alerts}),
+                          icon: Icon(
+                            Icons.notifications,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer
+                                .withOpacity(.5),
+                          ),
+                        ),
+                        const SizedBox(width: 5)
+                      ],
+                    ),
+                  ],
+                );
+              });
+        }),
       ],
       scrolledUnderElevation: 0,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,

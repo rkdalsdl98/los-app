@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:los_app/view/find_team.dart';
 import 'package:los_app/view/home.dart';
 import 'package:los_app/view/main_login_view.dart';
+import 'package:los_app/view/persornal_reminder.dart';
 import 'package:los_app/view/post_detail.dart';
 import 'package:los_app/view/posts.dart';
 import 'package:los_app/view/register_team.dart';
@@ -22,7 +23,11 @@ Route<dynamic>? initGeneratedRoutes(RouteSettings settings) {
     case '/register-team':
       return MaterialPageRoute(builder: (_) => const RegisterTeam());
     case '/find-team':
-      return MaterialPageRoute(builder: (_) => FindTeam());
+      return MaterialPageRoute(builder: (_) => const FindTeam());
+    case '/persornal-reminder':
+      return MaterialPageRoute(
+        builder: (_) => PersornalReminder(alerts: args['alerts']),
+      );
     default:
       return null;
   }

@@ -18,6 +18,8 @@ class UserProvider with ChangeNotifier {
   UserDataModel? get userData => _userRepo.userData;
   List<SimpleTeamInfoDto>? get teamList => _userRepo.teamList;
   Map<String, dynamic>? get subcribeTeamInfo => _userRepo.subcribeTeamInfo;
+  Map<String, Stream<QuerySnapshot<Map<String, dynamic>>>?>? get streamList =>
+      _userRepo.streamList;
 
   FirebaseAuth get authentication => _userRepo.authentication;
 
@@ -27,15 +29,17 @@ class UserProvider with ChangeNotifier {
       if (value != null) {
         final toJson = jsonDecode(value);
         _userRepo.linkUserDataFromJson(toJson);
+        _userRepo.linkSubcribeTeam().then((_) {
+          notifyListeners();
+        });
+        bindStreamDataByDoc('alert');
       }
-      notifyListeners();
     });
-    _userRepo.linkSubcribeTeam().then((_) => notifyListeners());
   }
 
-  void setSubcribeTeam(String teamCode) {
+  Future<String> setSubcribeTeam(String teamCode) async {
     try {
-      _userRepo
+      return await _userRepo
           .setSubcribeTeam(
               JoinRequestModel.fromJson({
                 "privateId": user!.uid,
@@ -47,7 +51,10 @@ class UserProvider with ChangeNotifier {
                 "detailInfo": null,
               }),
               teamCode)
-          .then((value) => notifyListeners());
+          .then((res) {
+        notifyListeners();
+        return res;
+      });
     } catch (e) {
       rethrow;
     }
@@ -55,7 +62,12 @@ class UserProvider with ChangeNotifier {
 
   void removeSubcribeTeam() {
     try {
-      _userRepo.removeSubcribeTeam().then((_) => notifyListeners());
+      _userRepo
+          .removeSubcribeTeam(
+            JoinRequestModel.fromJson(_userRepo.subcribeTeamInfo!['info']),
+            _userRepo.subcribeTeamInfo!['teamCode'],
+          )
+          .then((_) => notifyListeners());
     } catch (e) {
       rethrow;
     }
@@ -94,6 +106,22 @@ class UserProvider with ChangeNotifier {
   void refreshTeamList() {
     try {
       _userRepo.refreshTeamList().then((_) => notifyListeners());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void bindStreamDataByDoc(String docN) {
+    try {
+      _userRepo.bindStreamDataByDoc(docN);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void unBindStreamDataByDoc(String docN) {
+    try {
+      _userRepo.unBindStreamDataByDoc(docN);
     } catch (e) {
       rethrow;
     }

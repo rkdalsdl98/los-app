@@ -26,10 +26,15 @@ class UserRepo {
   Map<String, dynamic>? _subcribeTeamInfo;
   Map<String, dynamic>? get subcribeTeamInfo => _subcribeTeamInfo;
 
+  Map<String, Stream<QuerySnapshot<Map<String, dynamic>>>?>? _streamList;
+  Map<String, Stream<QuerySnapshot<Map<String, dynamic>>>?>? get streamList =>
+      _streamList;
+
   UserRepo(ApiClient client) {
     _apiClient = client;
     _user = _authentication.currentUser;
     refreshTeamList();
+    _streamList = {};
   }
 
   void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
@@ -80,21 +85,27 @@ class UserRepo {
     }
   }
 
-  Future<void> setSubcribeTeam(JoinRequestModel req, String teamCode) async {
+  Future<String> setSubcribeTeam(JoinRequestModel req, String teamCode) async {
     try {
-      var saveData = {"info": req.toJson(), "teamCode": teamCode};
-
-      LocalMamanger.saveStringData('subcribe-team', jsonEncode(saveData))
-          .then((_) => _subcribeTeamInfo = saveData);
+      final res =
+          await _apiClient.subcribeTeam(userData!.permission!, req, teamCode);
+      if (res['result']) {
+        var saveData = {"info": req.toJson(), "teamCode": teamCode};
+        LocalMamanger.saveStringData('subcribe-team', jsonEncode(saveData))
+            .then((_) => _subcribeTeamInfo = saveData);
+      }
+      return res['message'];
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> removeSubcribeTeam() async {
+  Future<void> removeSubcribeTeam(JoinRequestModel req, String teamCode) async {
     try {
-      LocalMamanger.removeData('subcribe-team')
-          .then((_) => _subcribeTeamInfo = null);
+      await _apiClient
+          .removeSubcribeTeam(userData!.permission!, req, teamCode)
+          .then((_) => LocalMamanger.removeData('subcribe-team')
+              .then((_) => _subcribeTeamInfo = null));
     } catch (e) {
       rethrow;
     }
@@ -109,5 +120,24 @@ class UserRepo {
         "teamCode": json['teamCode'],
       };
     });
+  }
+
+  void bindStreamDataByDoc(String docN) {
+    try {
+      Stream<QuerySnapshot<Map<String, dynamic>>> streamData =
+          _apiClient.getUserStreamDataByDoc(docN, _user!.uid);
+
+      _streamList?.addEntries({docN: streamData}.entries);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void unBindStreamDataByDoc(String docN) {
+    try {
+      _streamList?.remove(docN);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

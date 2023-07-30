@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
 import 'package:los_app/provider/user_provider.dart';
 import 'package:los_app/system/func.dart';
+import 'package:los_app/system/message.dart';
 import 'package:provider/provider.dart';
 
 import '../../design/dimensions.dart';
@@ -18,7 +19,7 @@ class FindTeamListItem extends StatelessWidget {
 
   void showDetailModal(
     BuildContext context, {
-    Function(String)? onPressEvent,
+    Future<String> Function(String)? onPressEvent,
   }) {
     showDialog(
       context: context,
@@ -151,8 +152,21 @@ class FindTeamListItem extends StatelessWidget {
                             text: '가입신청',
                             onPressEvent: onPressEvent != null
                                 ? () {
-                                    onPressEvent(info.teamCode!);
-                                    Navigator.pop(context);
+                                    try {
+                                      onPressEvent(info.teamCode!)
+                                          .then((value) {
+                                        Navigator.pop(context);
+                                        snackBarMessage(
+                                          context,
+                                          value,
+                                          null,
+                                        );
+                                      });
+                                    } catch (e) {
+                                      Navigator.pop(context);
+                                      snackBarErrorMessage(context,
+                                          "예기치 못한 오류가 발생했습니다", e.toString());
+                                    }
                                   }
                                 : null,
                             textStyle: TextStyle(
@@ -303,7 +317,13 @@ class FindTeamListItem extends StatelessWidget {
                       isActive: isSubcribe,
                       text: isSubcribe ? '가입취소' : '상세정보',
                       onPressEvent: isSubcribe
-                          ? () => provider.removeSubcribeTeam()
+                          ? () {
+                              try {
+                                provider.removeSubcribeTeam();
+                              } catch (e) {
+                                print(e);
+                              }
+                            }
                           : null,
                       margin: const EdgeInsets.only(right: 10),
                       padding: const EdgeInsets.symmetric(
