@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:los_app/datasource/api_manager.dart';
 import 'package:los_app/datasource/local_manager.dart';
+import 'package:los_app/datasource/model/alert_model.dart';
 import 'package:los_app/model/user_data_model.dart';
 
 import '../datasource/dto/simple_team_info_dto.dart';
@@ -30,11 +31,25 @@ class UserRepo {
   Map<String, Stream<QuerySnapshot<Map<String, dynamic>>>?>? get streamList =>
       _streamList;
 
+  List<AlertModel>? _alerts;
+  List<AlertModel>? get alerts => _alerts;
+
   UserRepo(ApiClient client) {
     _apiClient = client;
     _user = _authentication.currentUser;
     refreshTeamList();
     _streamList = {};
+    _alerts = [];
+  }
+
+  void linkAlerts(List<QueryDocumentSnapshot<Object?>>? newAlerts) {
+    var toAlertModels = newAlerts!
+        .map((e) => AlertModel.fromJson(e.data() as Map<String, dynamic>));
+    _alerts = toAlertModels.toList();
+  }
+
+  void unLinkAlerts() {
+    _alerts = null;
   }
 
   void linkUserDataFromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
@@ -59,6 +74,8 @@ class UserRepo {
     try {
       _userData = null;
       _user = null;
+      _streamList = null;
+      _subcribeTeamInfo = null;
       LocalMamanger.removeData('user');
     } catch (e) {
       rethrow;
@@ -122,20 +139,17 @@ class UserRepo {
     });
   }
 
-  void bindStreamDataByDoc(String docN) {
+  Future<void> deleteAlertDoc(String alertId) async {
     try {
-      Stream<QuerySnapshot<Map<String, dynamic>>> streamData =
-          _apiClient.getUserStreamDataByDoc(docN, _user!.uid);
-
-      _streamList?.addEntries({docN: streamData}.entries);
+      await _apiClient.deleteAlertDoc(user!.uid, alertId);
     } catch (e) {
       rethrow;
     }
   }
 
-  void unBindStreamDataByDoc(String docN) {
+  Future<CollectionReference> getSubColRef() async {
     try {
-      _streamList?.remove(docN);
+      return await _apiClient.getSubColRef('user', 'alert', user!.uid);
     } catch (e) {
       rethrow;
     }

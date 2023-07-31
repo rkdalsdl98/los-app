@@ -32,6 +32,27 @@ class ApiClient {
     }
   }
 
+  Future<void> deleteDoc(String col, String doc) async {
+    try {
+      await _firestore.collection(col).doc(doc).delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteAlertDoc(String privateId, String alertId) async {
+    try {
+      await _firestore
+          .collection('user')
+          .doc(privateId)
+          .collection('alert')
+          .doc(alertId)
+          .delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>?> registerTeam(RegisterTeamDto teamInfo) async {
     try {
       final serverUrl = dotenv.env['BASEURL'];
@@ -68,6 +89,11 @@ class ApiClient {
 
   Future<DocumentReference> getDocRef(String col, String docN) async {
     return _firestore.collection(col).doc(docN);
+  }
+
+  Future<CollectionReference> getSubColRef(
+      String mCol, String sCol, String doc) async {
+    return _firestore.collection(mCol).doc(doc).collection(sCol);
   }
 
   Future<List<SimpleTeamInfoDto>> getTeamList() async {
@@ -133,19 +159,6 @@ class ApiClient {
       if (res.statusCode != 200) {
         throw res.statusCode;
       }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Stream<QuerySnapshot<Map<String, dynamic>>> getUserStreamDataByDoc(
-      String docN, String privateId) {
-    try {
-      return _firestore
-          .collection('user')
-          .doc(privateId)
-          .collection(docN)
-          .snapshots();
     } catch (e) {
       rethrow;
     }

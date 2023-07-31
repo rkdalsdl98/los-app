@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:los_app/datasource/api_manager.dart';
 import 'package:los_app/datasource/dto/simple_team_info_dto.dart';
 import 'package:los_app/datasource/local_manager.dart';
+import 'package:los_app/datasource/model/alert_model.dart';
 import 'package:los_app/datasource/model/join_request_model.dart';
 import 'package:los_app/resposistory/user_repo.dart';
 
@@ -20,8 +22,12 @@ class UserProvider with ChangeNotifier {
   Map<String, dynamic>? get subcribeTeamInfo => _userRepo.subcribeTeamInfo;
   Map<String, Stream<QuerySnapshot<Map<String, dynamic>>>?>? get streamList =>
       _userRepo.streamList;
+  List<AlertModel>? get alerts => _userRepo.alerts;
 
   FirebaseAuth get authentication => _userRepo.authentication;
+
+  CollectionReference? _alertColRef;
+  StreamSubscription<QuerySnapshot<Object?>>? _streamSub;
 
   UserProvider() {
     _userRepo = UserRepo(ApiClient());
@@ -30,9 +36,8 @@ class UserProvider with ChangeNotifier {
         final toJson = jsonDecode(value);
         _userRepo.linkUserDataFromJson(toJson);
         _userRepo.linkSubcribeTeam().then((_) {
-          notifyListeners();
+          bindAlertData().then((_) => notifyListeners());
         });
-        bindStreamDataByDoc('alert');
       }
     });
   }
@@ -97,6 +102,7 @@ class UserProvider with ChangeNotifier {
   void unLinkUserData() {
     try {
       _userRepo.unLinkUserData();
+      unBindAlertData();
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -111,17 +117,37 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  void bindStreamDataByDoc(String docN) {
+  Future<void> bindAlertData() async {
     try {
-      _userRepo.bindStreamDataByDoc(docN);
+      _alertColRef = await _userRepo.getSubColRef();
+      if (_alertColRef != null) {
+        _streamSub = _alertColRef!.snapshots().listen((event) {
+          var newAlerts = event.docs;
+          _userRepo.linkAlerts(newAlerts);
+          notifyListeners();
+        });
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  void unBindStreamDataByDoc(String docN) {
+  void unBindAlertData() {
     try {
-      _userRepo.unBindStreamDataByDoc(docN);
+      _streamSub?.cancel().then((_) {
+        _alertColRef = null;
+        _streamSub = null;
+        _userRepo.unLinkAlerts();
+        notifyListeners();
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void deleteAlertDoc(String alertId) {
+    try {
+      _userRepo.deleteAlertDoc(alertId);
     } catch (e) {
       rethrow;
     }

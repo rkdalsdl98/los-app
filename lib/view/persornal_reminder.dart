@@ -1,11 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:los_app/design/dimensions.dart';
+import 'package:los_app/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
-class PersornalReminder extends StatelessWidget {
-  final QuerySnapshot<Map<String, dynamic>>? alerts;
+import '../datasource/model/alert_model.dart';
+
+class PersornalReminder extends StatefulWidget {
+  final List<AlertModel>? alerts;
 
   const PersornalReminder({super.key, this.alerts});
+
+  @override
+  State<PersornalReminder> createState() => _PersornalReminderState();
+}
+
+class _PersornalReminderState extends State<PersornalReminder> {
+  void onDeleteNotify(BuildContext context, String alertId) {
+    setState(() {
+      context.read<UserProvider>().deleteAlertDoc(alertId);
+      widget.alerts!.removeWhere((e) => e.alertId == alertId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +62,13 @@ class PersornalReminder extends StatelessWidget {
             fit: BoxFit.contain,
           ),
         ),
-        child: alerts == null
+        child: widget.alerts == null
             ? Container()
             : Column(
                 children: [
-                  if (alerts!.docs.isEmpty) Container(),
-                  for (var alert in alerts!.docs)
-                    notifyWrapHelper(context, text: alert['message'])
+                  if (widget.alerts!.isEmpty) Container(),
+                  for (var alert in widget.alerts!)
+                    notifyWrapHelper(context, alert, onDeleteNotify)
                 ],
               ),
       ),
@@ -61,9 +76,10 @@ class PersornalReminder extends StatelessWidget {
   }
 
   Container notifyWrapHelper(
-    BuildContext context, {
-    String? text,
-  }) {
+    BuildContext context,
+    AlertModel alert,
+    Function(BuildContext, String) onDelete,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -85,7 +101,7 @@ class PersornalReminder extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            text ?? '',
+            alert.body!.message ?? '',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
               fontSize: 12 * getScaleFactorFromWidth(context),
@@ -93,9 +109,12 @@ class PersornalReminder extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Icon(
-            Icons.close,
-            size: 14 * getScaleFactorFromWidth(context),
+          InkWell(
+            onTap: () => onDelete(context, alert.alertId!),
+            child: Icon(
+              Icons.close,
+              size: 14 * getScaleFactorFromWidth(context),
+            ),
           ),
         ],
       ),
