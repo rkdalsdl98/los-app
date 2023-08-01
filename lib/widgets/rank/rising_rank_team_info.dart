@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/design/dimensions.dart';
 import 'package:los_app/widgets/rank/rising_rank_team_info_text.dart';
 
 class RisingRankTeamInfo extends StatelessWidget {
@@ -13,8 +14,8 @@ class RisingRankTeamInfo extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.all(10),
-          width: 70,
-          height: 70,
+          width: 70 * getScaleFactorFromWidth(context),
+          height: 70 * getScaleFactorFromWidth(context),
           decoration: BoxDecoration(
             border: Border.all(
               color: const Color(0xFFD9DDEB),
@@ -29,7 +30,7 @@ class RisingRankTeamInfo extends StatelessWidget {
         RisingRankTeamInfoText(
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
-            fontSize: 6,
+            fontSize: 8 * getScaleFactorFromHeight(context),
             fontFamily: 'SpoqaHanSans',
             fontWeight: FontWeight.w600,
           ),
@@ -38,7 +39,7 @@ class RisingRankTeamInfo extends StatelessWidget {
         RisingRankTeamInfoText(
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
-            fontSize: 6,
+            fontSize: 8 * getScaleFactorFromHeight(context),
             fontFamily: 'SpoqaHanSans',
             fontWeight: FontWeight.w400,
           ),
@@ -47,7 +48,7 @@ class RisingRankTeamInfo extends StatelessWidget {
         RisingRankTeamInfoText(
           style: TextStyle(
             color: Theme.of(context).colorScheme.onBackground,
-            fontSize: 6,
+            fontSize: 8 * getScaleFactorFromHeight(context),
             fontFamily: 'SpoqaHanSans',
             fontWeight: FontWeight.w400,
           ),

@@ -11,7 +11,7 @@ class WeatherInfoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 5 * getScaleFactorFromWidth(context),
+        horizontal: 8 * getScaleFactorFromWidth(context),
         vertical: 2,
       ),
       decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class WeatherInfoItem extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
-              fontSize: 4 * getScaleFactorFromWidth(context),
+              fontSize: 5 * getScaleFactorFromWidth(context),
               fontFamily: 'SpoqaHanSans',
               fontWeight: FontWeight.w400,
             ),

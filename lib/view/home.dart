@@ -8,6 +8,7 @@ import '../system/message.dart';
 import '../widgets/pages/home_main_page.dart';
 import '../widgets/pages/home_my_page.dart';
 import '../widgets/pages/home_team_page.dart';
+import '../widgets/team/team_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -17,6 +18,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void openDrawer() {
+    scaffoldKey.currentState!.openDrawer();
+  }
+
+  void closeDrawer() {
+    scaffoldKey.currentState!.closeDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -26,6 +37,9 @@ class _HomeState extends State<Home> {
       child: Consumer<PageProvider>(
         builder: (_, provider, __) {
           return Scaffold(
+            key: scaffoldKey,
+            drawerEnableOpenDragGesture: false,
+            drawer: TeamDrawer(onCloseDrawer: closeDrawer),
             bottomNavigationBar: NavigationBar(
               selectedIndex: provider.selectedPage,
               height: 64,
@@ -73,10 +87,10 @@ class _HomeState extends State<Home> {
                   constraints: BoxConstraints.tight(const Size.fromWidth(500)),
                   child: IndexedStack(
                     index: provider.selectedPage,
-                    children: const [
-                      HomeMainPage(),
-                      HomeTeamPage(),
-                      SingleChildScrollView(child: HomeMyPage()),
+                    children: [
+                      const HomeMainPage(),
+                      HomeTeamPage(onOpenDrawer: openDrawer),
+                      const SingleChildScrollView(child: HomeMyPage()),
                     ],
                   ),
                 ),

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:los_app/provider/team_provider.dart';
 import 'package:los_app/provider/user_provider.dart';
@@ -58,65 +57,57 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<UserProvider>();
     return SliverAppBar(
       actions: [
-        Stack(
-          children: [
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection('user')
-                  .doc(provider.user!.uid)
-                  .collection('alert')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final alerts = snapshot.data;
-                  return Positioned(
-                    left: 25,
-                    top: 5,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.error,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(45),
-                        ),
-                      ),
-                      child: Text(
-                        '${alerts!.docs.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontFamily: 'SpoqaHanSans',
-                          fontWeight: FontWeight.w700,
-                        ),
+        Consumer<UserProvider>(
+          builder: (_, provider, __) {
+            return Stack(
+              children: [
+                Positioned(
+                  left: 25,
+                  top: 5,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.error,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(45),
                       ),
                     ),
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimaryContainer
-                        .withOpacity(.5),
+                    child: Text(
+                      '${provider.alerts == null ? 0 : provider.alerts!.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontFamily: 'SpoqaHanSans',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 5)
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.pushNamed(
+                          context, '/persornal-reminder',
+                          arguments: {"alerts": provider.alerts}),
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onPrimaryContainer
+                            .withOpacity(.5),
+                      ),
+                    ),
+                    const SizedBox(width: 5)
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ],
       scrolledUnderElevation: 0,

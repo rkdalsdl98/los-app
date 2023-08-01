@@ -16,6 +16,7 @@ class InputField extends StatelessWidget {
   final TextInputType? textInputType;
   final InputDecoration? customDecoration;
   final int? maxLength;
+  final TextStyle? textStyle;
 
   const InputField({
     super.key,
@@ -34,7 +35,9 @@ class InputField extends StatelessWidget {
     this.textInputType,
     this.customDecoration,
     this.maxLength,
+    this.textStyle,
   });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,12 +55,13 @@ class InputField extends StatelessWidget {
         },
         validator: (value) => validator != null ? validator!(value) : null,
         controller: controller,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
-          fontSize: 14,
-          fontFamily: 'SpoqaHanSans',
-          fontWeight: FontWeight.w400,
-        ),
+        style: textStyle ??
+            TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+              fontSize: 14,
+              fontFamily: 'SpoqaHanSans',
+              fontWeight: FontWeight.w400,
+            ),
         decoration: customDecoration ??
             InputDecoration(
               filled: true,

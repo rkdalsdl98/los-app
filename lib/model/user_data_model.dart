@@ -11,7 +11,8 @@ class UserDataModel {
       height,
       weight,
       favoriteSports,
-      name;
+      name,
+      permission;
 
   int? createdAt;
   UserDataModel.fromDoc(DocumentSnapshot<Map<String, dynamic>>? snapshot) {
@@ -28,6 +29,7 @@ class UserDataModel {
       favoriteSports = snapshot['favoriteSports'];
       name = snapshot['name'];
       nickname = snapshot['nickname'];
+      permission = snapshot['permission'];
     }
   }
 
@@ -43,7 +45,8 @@ class UserDataModel {
         height = json['height'],
         weight = json['weight'],
         favoriteSports = json['favoriteSports'],
-        name = json['name'];
+        name = json['name'],
+        permission = json['permission'];
 
   Map<String, dynamic> toJson() => {
         "address": address,
@@ -58,5 +61,6 @@ class UserDataModel {
         "weight": weight,
         "favoriteSports": favoriteSports,
         "name": name,
+        "permission": permission,
       };
 }

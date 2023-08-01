@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:los_app/design/dimensions.dart';
 import 'package:los_app/provider/team_provider.dart';
-import 'package:los_app/system/func.dart';
-import 'package:los_app/widgets/global/circle_text_large.dart';
-import 'package:los_app/widgets/global/custom_text_wraper.dart';
 import 'package:provider/provider.dart';
 
 import '../../datasource/dto/team_dto.dart';
+import '../../design/dimensions.dart';
+import '../../system/func.dart';
+import '../global/circle_text_large.dart';
+import '../global/custom_text_wraper.dart';
 
 class HomeTeamPage extends StatelessWidget {
-  const HomeTeamPage({super.key});
+  final VoidCallback onOpenDrawer;
+
+  const HomeTeamPage({
+    super.key,
+    required this.onOpenDrawer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +67,8 @@ class HomeTeamPage extends StatelessWidget {
                   roundedButtonHelper(
                     context,
                     text: '팀 찾기',
+                    onPressEvent: () =>
+                        Navigator.pushNamed(context, '/find-team'),
                   ),
                 ],
               ),
