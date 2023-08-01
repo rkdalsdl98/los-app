@@ -89,7 +89,9 @@ class _HomeState extends State<Home> {
                     index: provider.selectedPage,
                     children: [
                       const HomeMainPage(),
-                      HomeTeamPage(onOpenDrawer: openDrawer),
+                      HomeTeamPage(
+                        onOpenDrawer: openDrawer,
+                      ),
                       const SingleChildScrollView(child: HomeMyPage()),
                     ],
                   ),
