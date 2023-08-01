@@ -6,6 +6,7 @@ import 'package:los_app/view/persornal_reminder.dart';
 import 'package:los_app/view/post_detail.dart';
 import 'package:los_app/view/posts.dart';
 import 'package:los_app/view/register_team.dart';
+import 'package:los_app/view/write_post.dart';
 
 Route<dynamic>? initGeneratedRoutes(RouteSettings settings) {
   final args =
@@ -26,8 +27,9 @@ Route<dynamic>? initGeneratedRoutes(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const FindTeam());
     case '/persornal-reminder':
       return MaterialPageRoute(
-        builder: (_) => PersornalReminder(alerts: args['alerts']),
-      );
+          builder: (_) => PersornalReminder(alerts: args['alerts']));
+    case '/write-post':
+      return MaterialPageRoute(builder: (_) => WritePost());
     default:
       return null;
   }

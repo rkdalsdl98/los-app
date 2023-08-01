@@ -16,24 +16,27 @@ class InputField extends StatelessWidget {
   final TextInputType? textInputType;
   final InputDecoration? customDecoration;
   final int? maxLength;
+  final TextStyle? textStyle;
 
-  const InputField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.prefixIcon,
-      this.suffixText,
-      required this.type,
-      this.addData,
-      required this.validator,
-      this.obscureText = false,
-      this.padding = const EdgeInsets.symmetric(horizontal: 20),
-      this.align = TextAlign.start,
-      this.alignVertical,
-      this.suffixIcon,
-      this.textInputType,
-      this.customDecoration,
-      this.maxLength});
+  const InputField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.prefixIcon,
+    this.suffixText,
+    required this.type,
+    this.addData,
+    required this.validator,
+    this.obscureText = false,
+    this.padding = const EdgeInsets.symmetric(horizontal: 20),
+    this.align = TextAlign.start,
+    this.alignVertical,
+    this.suffixIcon,
+    this.textInputType,
+    this.customDecoration,
+    this.maxLength,
+    this.textStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +55,13 @@ class InputField extends StatelessWidget {
         },
         validator: (value) => validator != null ? validator!(value) : null,
         controller: controller,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
-          fontSize: 14,
-          fontFamily: 'SpoqaHanSans',
-          fontWeight: FontWeight.w400,
-        ),
+        style: textStyle ??
+            TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+              fontSize: 14,
+              fontFamily: 'SpoqaHanSans',
+              fontWeight: FontWeight.w400,
+            ),
         decoration: customDecoration ??
             InputDecoration(
               filled: true,
