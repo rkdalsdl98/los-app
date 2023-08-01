@@ -36,8 +36,6 @@ class UserProvider with ChangeNotifier {
       _userRepo.streamList;
   List<AlertModel>? get alerts => _userRepo.alerts;
 
-  FirebaseAuth get authentication => _userRepo.authentication;
-
   CollectionReference? _alertColRef;
   StreamSubscription<QuerySnapshot<Object?>>? _streamSub;
 
