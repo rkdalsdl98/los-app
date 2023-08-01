@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:los_app/design/dimensions.dart';
 import 'package:los_app/widgets/rank/rising_rank_team_info.dart';
 
 class RisingRankTeamBox extends StatelessWidget {
@@ -10,7 +11,7 @@ class RisingRankTeamBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      height: 115,
+      height: 170 * getScaleFactorFromHeight(context),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: const AssetImage('assets/img/background_logo.png'),

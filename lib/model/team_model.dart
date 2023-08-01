@@ -6,7 +6,7 @@ class TeamModel {
       tier,
       teamMark,
       writePostCode,
-      linkedChattindCode,
+      linkedChattingCode,
       linkedPostCode,
       weeklyGameRecord;
 
@@ -23,7 +23,7 @@ class TeamModel {
       tier = snapshot['tier'];
       teamMark = snapshot['team-mark-url'];
       writePostCode = snapshot['write-post-code'];
-      linkedChattindCode = snapshot['linked-chatting-code'];
+      linkedChattingCode = snapshot['linked-chatting-code'];
       linkedPostCode = snapshot['linked-post-code'];
       weeklyGameRecord = snapshot['weekly-game-record'];
       todayPlayedCount = snapshot['today-played-count'];
@@ -40,7 +40,7 @@ class TeamModel {
         tier = json['tier'],
         teamMark = json['team-mark-url'],
         writePostCode = json['write-post-code'],
-        linkedChattindCode = json['linked-chatting-code'],
+        linkedChattingCode = json['linked-chatting-code'],
         linkedPostCode = json['linked-post-code'],
         weeklyGameRecord = json['weekly-game-record'],
         todayPlayedCount = json['today-played-count'],

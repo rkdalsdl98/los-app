@@ -4,7 +4,7 @@ class JoinRequestModel {
 
   JoinRequestModel.fromJson(Map<String, dynamic> json) {
     privateId = json['privateId'];
-    nickName = json['nickname'];
+    nickName = json['nickName'];
     age = json['age'];
     height = json['height'];
     weight = json['weight'];
@@ -14,6 +14,16 @@ class JoinRequestModel {
       detail = DetailInfoModel.fromJson(detailData);
     }
   }
+
+  Map<String, dynamic> toJson() => {
+        "privateId": privateId,
+        "nickName": nickName,
+        "age": age,
+        "height": height,
+        "weight": weight,
+        "profileImageUrl": profileImageUrl,
+        "detailInfo": detail?.toJson(),
+      };
 }
 
 class DetailInfoModel {
@@ -24,4 +34,11 @@ class DetailInfoModel {
         phoneNumber = json['phoneNumber'],
         address = json['address'],
         favoriteSports = json['favoriteSports'];
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "phoneNumber": phoneNumber,
+        "address": address,
+        "favoriteSports": favoriteSports,
+      };
 }

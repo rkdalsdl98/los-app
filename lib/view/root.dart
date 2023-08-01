@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:los_app/design/color_schemes.g.dart';
 import 'package:los_app/provider/team_provider.dart';
 import 'package:los_app/provider/user_provider.dart';
@@ -55,6 +56,15 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: isLogined ? const Home() : const MainLoginView(),
+        supportedLocales: const [
+          Locale('ko'),
+          Locale('en'),
+        ],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
       ),
     );
   }
