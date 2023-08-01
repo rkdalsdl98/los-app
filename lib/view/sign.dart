@@ -1,13 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:los_app/datasource/local_manager.dart';
-import 'package:los_app/system/loading.dart';
+import 'package:los_app/system/auth.dart';
 import 'package:los_app/system/message.dart';
 import 'package:los_app/system/types.dart';
 import 'package:los_app/widgets/input_field.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/user_provider.dart';
 import '../system/func.dart';
 import '../widgets/submit_button.dart';
 
@@ -30,6 +27,13 @@ class _SignState extends State<Sign> {
   final TextEditingController inputPass2Controller = TextEditingController();
   final TextEditingController inputPhoneNumController = TextEditingController();
   final TextEditingController inputAddressController = TextEditingController();
+  final TextEditingController inputAgeController = TextEditingController();
+  final TextEditingController inputHeightController = TextEditingController();
+  final TextEditingController inputWeightController = TextEditingController();
+  final TextEditingController inputFavoriteSportsController =
+      TextEditingController();
+  final TextEditingController inputNameController = TextEditingController();
+  final TextEditingController inputNickNameController = TextEditingController();
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   Map<String, dynamic> result = {};
@@ -54,46 +58,21 @@ class _SignState extends State<Sign> {
     try {
       if (!isAccept) throw 'AcceptException';
       form.save();
-      showLoadingIndicator(context);
-
-      final userProvider = context.read<UserProvider>();
-
-      final userCredential =
-          await userProvider.authentication.createUserWithEmailAndPassword(
-        email: result['userId'],
-        password: result['userPass'],
-      );
-
-      if (userCredential.user != null) {
-        await FirebaseFirestore.instance
-            .collection('user')
-            .doc(userCredential.user!.uid)
-            .set(
-          {
-            'email': result['userId'],
-            'phone-number': result['phoneNumber'],
-            'profile-image': '',
-            'team-code': '',
-            'address': result['address'],
-            'created-at': DateTime.now(),
-          },
-        ).then((value) => Navigator.pop(context));
-      } else {
-        Navigator.pop(context);
-      }
+      await losSignUp(context, result);
     } catch (e) {
       if (e.toString() == 'AcceptException') {
+        Navigator.pop(context);
         snackBarMessage(
           context,
-          "약관의 동의 하지 않을 경우 회원가입 진행이 불가합니다",
+          "약관에 동의 하지 않을 경우 회원가입 진행이 불가합니다",
           const Icon(
             Icons.warning_rounded,
             color: Colors.red,
           ),
         );
       } else {
-        snackBarErrorMessage(context, "예기치 못한 오류가 발생했습니다.", e.toString());
         Navigator.pop(context);
+        snackBarErrorMessage(context, "예기치 못한 오류가 발생했습니다.", e.toString());
       }
     }
   }
@@ -212,6 +191,118 @@ class _SignState extends State<Sign> {
                             hintText: '도로명 주소를 입력해주세요.',
                             prefixIcon: Icons.location_on_sharp,
                             suffixText: '(ex: 서울특별시 마포구 월드컵로5길 11)',
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '나이를 입력해주세요';
+                              } else if (value.trim().length > 2 ||
+                                  int.parse(value) < 1) {
+                                return '나이는 1세 부터 99세까지 입력 할 수 있습니다.';
+                              }
+                              return null;
+                            },
+                            type: 'age',
+                            controller: inputAgeController,
+                            hintText: '나이를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '키를 입력해주세요';
+                              } else if (value.trim().length > 3 ||
+                                  int.parse(value) > 300) {
+                                return '정확한 키를 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'height',
+                            controller: inputHeightController,
+                            hintText: '키를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            textInputType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '몸무게를 입력해주세요';
+                              } else if (value.trim().length > 3 ||
+                                  int.parse(value) > 300) {
+                                return '정확한 몸무게를 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'weight',
+                            controller: inputWeightController,
+                            hintText: '몸무게를 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '자신이 가장 좋아하는 운동종목을 입력해주세요';
+                              } else if (value.trim().length > 10) {
+                                return '운동종목은 10자 이내로 작성해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'favoriteSports',
+                            controller: inputFavoriteSportsController,
+                            hintText: '자신이 가장좋아하는 운동종목을 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '이름을 입력해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'name',
+                            controller: inputNameController,
+                            hintText: '이름을 입력해주세요.',
+                            prefixIcon: null,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          InputField(
+                            addData: addData,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '닉네임를 입력해주세요';
+                              } else if (value.trim().length > 10) {
+                                return '닉네임은 10글자 이내로 작성해주세요';
+                              }
+                              return null;
+                            },
+                            type: 'nickname',
+                            controller: inputNickNameController,
+                            hintText: '닉네임을 입력해주세요.',
+                            prefixIcon: null,
                           ),
                         ],
                       ),

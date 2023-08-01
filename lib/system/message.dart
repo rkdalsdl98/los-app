@@ -68,3 +68,22 @@ void snackBarMessage(BuildContext context, String message, Icon? icon) {
     ),
   );
 }
+
+Future<void> showDialogMessage(
+  BuildContext context,
+  String text,
+  List<Widget> actions,
+) async {
+  await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 14,
+        ),
+      ),
+      actions: actions,
+    ),
+  );
+}
